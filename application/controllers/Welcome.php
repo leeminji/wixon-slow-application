@@ -21,5 +21,8 @@ class Welcome extends CI_Controller {
 	public function index()
 	{
 		$this->load->view('welcome_message');
+		$this->session->set_userdata("test", ['1'=>'gggg', '2'=>'12121212']);
+		$this->session->set_userdata("test[2]", "11111");
+		var_dump($this->session->userdata);
 	}
 }

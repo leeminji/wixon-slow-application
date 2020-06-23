@@ -83,3 +83,13 @@ defined('EXIT_USER_INPUT')     OR define('EXIT_USER_INPUT', 7); // invalid user 
 defined('EXIT_DATABASE')       OR define('EXIT_DATABASE', 8); // database error
 defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
+
+
+/* Azure AD authentication */
+defined('OAUTH_APP_ID') OR define('OAUTH_APP_ID', '4234a051-f15c-4dd1-a24e-e9792026eff5');
+defined('OAUTH_APP_PASSWORD') OR define('OAUTH_APP_PASSWORD', 'prre8-Kds0VsxdeLLi1-~GWOlM-27BHUdZ');
+defined('OAUTH_REDIRECT_URI') OR define('OAUTH_REDIRECT_URI', 'http://localhost:8043/auth/callback');
+defined('OAUTH_SCOPES') OR define('OAUTH_SCOPES', 'openid profile offline_access user.read calendars.read Mail.Read');
+defined('OAUTH_AUTHORITY') OR define('OAUTH_AUTHORITY', 'https://login.microsoftonline.com/common');
+defined('OAUTH_AUTHORIZE_ENDPOINT') OR define('OAUTH_AUTHORIZE_ENDPOINT', '/oauth2/v2.0/authorize');
+defined('OAUTH_TOKEN_ENDPOINT') OR define('OAUTH_TOKEN_ENDPOINT', '/oauth2/v2.0/token');
