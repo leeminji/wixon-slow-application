@@ -1,0 +1,95 @@
+@import url('reset.css');
+
+/* Layout */
+html, body{height:100%;width:100%;}
+.App{height:100%;width:100%;}
+.App__container{height:100%;width:100%;}
+
+.Container{position: absolute;top:3rem;bottom:0;width:100%}
+.Container:after{content:'';display: block;clear: both;}
+
+.Container__main{padding-left:16rem;height:100%;overflow-y: auto;}
+.Container__sidebar{width:16rem;position: absolute;left:0;top:0;bottom:0;background-color:bisque;overflow-y: auto;}
+
+.Header{position: fixed;top:0;right:0;left:0;height:3rem;background-color: antiquewhite;}
+.Footer{padding:1rem 2rem;text-align: center;}
+
+.Page{box-sizing: border-box;min-height:45em;}
+.Page__inner{padding:2rem;}
+
+/* Layout */
+.Layout__row:after{content:'';display: block;clear: both;}
+.Layout__row > div[class^="Layout__col"]{display: block;float:left;box-sizing: border-box;padding:0 0.5em;}
+.Layout__row > div[class^="Layout__col"]:first-child{padding-left:0}
+.Layout__row > div[class^="Layout__col"]:last-child{padding-right:0}
+.Layout__col8{width:66.66%;}
+.Layout__col7{width:58.33%;}
+.Layout__col6{width:50%;}
+.Layout__col5{width:41.66%;}
+.Layout__col4{width:33.33%;}
+.Layout__col3{width:25%;}
+
+/* Btn_basic */
+Button[class*="btn_"]{
+  box-sizing:border-box;
+  display: inline-block;
+  min-width:2em;padding:0 .6rem;line-height:2rem;color:#fff;border-radius: 3px;}
+Button[class*="btn_"] > .txt{display: inline-block;letter-spacing: -1px;font-size:0.875rem;line-height: 1rem;vertical-align: middle;}
+
+Button.btn_basic{background-color:blueviolet;}
+Button.btn_basic:hover{background-color:darkmagenta;}
+
+/* Header */
+.Header__Logo{float:left;}
+.Header__nav{float: right;}
+
+/* Sidebar */
+.Sidebar{}
+.Sidebar__title{padding-top:3em;font-size:1.5em;line-height:2em}
+
+/* MenuList */
+.MenuList{}
+.MenuList__item{position: relative;}
+.MenuList__item.active:after{display: block;content:'';position: absolute;left:0;right:0;bottom:0;height:2px;background-color:chocolate}
+.MenuList__item.active{background:#fff;color:#000}
+.MenuList__item:hover{background:burlywood}
+.MenuList__item > a{display:block;line-height:2.6em;text-indent:1em}
+
+/* Location */ 
+.Location{}
+.Location__title{font-size:2em;line-height:2em}
+.Location__text{}
+
+/* MenuTree */
+.MenuTree{}
+.MenuTree.noDepth{border:0;padding:0}
+.MenuTree.noDepth .MenuTree__list{padding-left:0}
+.MenuTree__list{list-style: none;padding-left:.3em;}
+.MenuTree__list .MenuTree__list{display: none;}
+.MenuTree__list[data-rank]{margin-left:.5em;}
+.MenuTree__item{margin:4px 0;position: relative;}
+.MenuTree__item > .info{border:1px solid #efefef}
+.MenuTree__item .toggle{display:none;width: 1em;line-height: 2em;position: absolute;left:-1.5em;top:10px;font-size:10px;cursor: pointer;}
+.MenuTree__item.isSub > .info .toggle{display: block;}
+.MenuTree__item.isSub.isOpen > .info .toggle{transform: rotateZ(90deg);}
+.MenuTree__item.isSub.isOpen .MenuTree_list{display: block;}
+.MenuTree__item .info{border-radius:3px;cursor: pointer;box-sizing: border-box;padding:5px}
+.MenuTree__item .info:hover{background:#efefef}
+.MenuTree__item .icon{display: inline-block;width:2em;height:2em;background-color:blueviolet;vertical-align: middle;border-radius: 2em;}
+.MenuTree__item .name{display: inline-block;font-weight:bold;line-height:2em;vertical-align: middle;padding-left:.2em}
+.MenuTree__item .name i{text-decoration: none;color:#666;font-style:normal;letter-spacing: -1px;font-size:0.8em;font-weight:normal}
+.MenuTree__item.active > .info{background:#fff;border:1px solid blueviolet}
+
+/* MenuDetail */
+.MenuDetail{border:1px solid #eee;}
+.MenuDetail__top{padding:.5em 1em;border-bottom:1px solid #eee;background-color: cornsilk;min-height:2em}
+.MenuDetail__top.right{text-align: right;}
+.MenuDetail__top .title{line-height:2em;}
+.MenuDetail__content{padding:1em;}
+
+
+/* InputBox */
+.InputBox__basic{display: block;position: relative;margin:4px 0}
+.InputBox__basic > .title{position: absolute;left:0;top:0;line-height:2em;width:6em;}
+.InputBox__basic > .cont{padding-left:6.5em;}
+.InputBox__basic > .cont input{width: 100%;border:1px solid #efefef}

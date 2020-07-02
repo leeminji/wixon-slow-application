@@ -30,8 +30,10 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 /tests/tests/
 /tests/results/
 
-./_PSD
-./_DATA
+_PSD/*
+_DATA/*
 
 application/config/constants.php
 application/config/database.php
+
+node_modules/*

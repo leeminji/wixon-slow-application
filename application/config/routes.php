@@ -55,3 +55,5 @@ $route['translate_uri_dashes'] = FALSE;
 $route['auth/(:any)'] = "auth/$1";
 $route['calendar/(:any)'] = "calendar/$1";
 $route['messages/(:any)'] = "messages/$1";
+$route['setting/menu/(:any)'] = "setting/menu/$1";
+$route['api/(:any)'] = "api/$1";
