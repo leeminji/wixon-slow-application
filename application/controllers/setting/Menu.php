@@ -3,10 +3,10 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Menu extends SL_Controller {
-
 	public function __construct()
 	{
 		parent::__construct();
+
 		$this->load->model("setting/menu_m");
 		$this->load->helper("tree");
 	}
@@ -18,18 +18,23 @@ class Menu extends SL_Controller {
 
 	public function main(){
 		$option = array(
-			"title" => "MenuSetting"
+			"title" => "MenuSetting",
+			"type_list" => $this->menu_m->get_all_types(),
+			"mt_idx"=> $this->input->get("mt_idx") == null ? 1 : $this->input->get("mt_idx")
 		);
+
 		$this->_view("/setting/menu/main_v", $option);
 	}
 
 	public function list(){
-		$list = $this->menu_m->get_all_items();
+		$t_idx = $this->input->get("mt_idx") == null ? 1 : $this->input->get("mt_idx");
+		$list = $this->menu_m->get_all_items($t_idx);
 
 		$menulist = get_to_tree($list);
 		if( $menulist != "" ){
 			$json = array(
 				'status' => 1, 
+				'type' => $t_idx,
 				'msg' => "success", 
 				'data' => $menulist,
 				'list' => $list
@@ -42,8 +47,9 @@ class Menu extends SL_Controller {
 	}
 
 	public function sub_list(){
+		$t_idx = $this->input->get("mt_idx") == null ? 1 : $this->input->get("mt_idx");
 		$idx = $this->uri->segment(4);
-		$list = $this->menu_m->get_sub_items($idx);
+		$list = $this->menu_m->get_sub_items($t_idx, $idx);
 
 		$menulist = get_to_tree_sub_list($list);
 		$json = array(
@@ -57,7 +63,7 @@ class Menu extends SL_Controller {
 
 	public function move(){
 		if($_POST){
-			$this->menu_m->set_items_rank($this->input->post("idx[]"));
+			$this->menu_m->set_items_rank($this->input->post("mm_idx[]"));
 			$json = array(
 				'status' => 1, 
 				'msg' => "success"
@@ -77,10 +83,11 @@ class Menu extends SL_Controller {
 	public function create(){
 		if($_POST){
 			$data = array(
-				"m_name" => $this->input->post("m_name"),
-				"m_dep" => !$this->input->post("m_dep") ? 0 : $this->input->post("m_dep"),
-				"m_link" => $this->input->post("m_link"),
-				"m_pidx" => !$this->input->post("m_pidx") ? 0 : $this->input->post("m_pidx"),
+				"mm_name" => $this->input->post("mm_name"),
+				"mm_dep" => !$this->input->post("mm_dep") ? 0 : $this->input->post("mm_dep"),
+				"mm_link" => $this->input->post("mm_link"),
+				"mm_pidx" => !$this->input->post("mm_pidx") ? 0 : $this->input->post("mm_pidx"),
+				"mt_idx" => $this->input->post("mt_idx"),
 			);
 			if($this->menu_m->insert_item($data)){
 				$json = array(
@@ -104,8 +111,8 @@ class Menu extends SL_Controller {
 		if($_POST){ 
 			$idx = $this->uri->segment(4);
 			$data = array(
-				"m_name" => $this->input->post("m_name"),
-				"m_link" => $this->input->post("m_link")
+				"mm_name" => $this->input->post("mm_name"),
+				"mm_link" => $this->input->post("mm_link")
 			);
 			$this->menu_m->update_item($idx, $data);
 			$json = array(

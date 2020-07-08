@@ -15,7 +15,7 @@ if ( ! function_exists('get_to_treelist'))
 		$html = "";
 		$html.="<ul class=\"MenuTree__list\">";
 		foreach($list as $item){
-			$item->m_cnode = 0;
+			$item->mm_cnode = 0;
 			$html .= get_to_treeitem($list, $item);
 		}
 		$html.="</ul>";
@@ -30,7 +30,7 @@ if ( ! function_exists('get_to_treelist'))
 		$html = "";
 		$html.="<ul class=\"MenuTree__list\" data-rank=\"{$dep}\">";
 		foreach($list as $item){
-			if( $item->m_dep == $dep && $item->m_pidx == $pidx){
+			if( $item->mm_dep == $dep && $item->mm_pidx == $pidx){
 				$html .= get_to_treeitem($list, $item);
 			}
 		}
@@ -43,16 +43,16 @@ if ( ! function_exists('get_to_treeitem'))
 {
 	function get_to_treeitem($list, $item){
 		$html = "";
-		$is_sub = $item->m_cnode > 0 ? "isSub" : "";
-		$html .= "<li class=\"MenuTree__item {$is_sub}\" data-idx=\"{$item->idx}\">";
-		$html .= "	<input type=\"hidden\" name=\"idx[]\" value=\"{$item->idx}\" />";
+		$is_sub = $item->mm_cnode > 0 ? "isSub" : "";
+		$html .= "<li class=\"MenuTree__item {$is_sub}\" data-idx=\"{$item->mm_idx}\">";
+		$html .= "	<input type=\"hidden\" name=\"mm_idx[]\" value=\"{$item->mm_idx}\" />";
 		$html .= 	"<div class=\"info\">";
 		$html .= 	"<span class=\"toggle\">▶</span>";
 		$html .= 	"<span class=\"icon\"></span>";
-		$html .= 	"<span class=\"name\">{$item->m_name} <i>[{$item->m_id}]</i></span>";
+		$html .= 	"<span class=\"name\">{$item->mm_name} <i>[{$item->mm_id}]</i></span>";
 		$html .= 	"</div>";
-		if( $item->m_cnode > 0 ){
-			$html .= get_to_treelist($list, $item->m_dep+1, $item->idx);
+		if( $item->mm_cnode > 0 ){
+			$html .= get_to_treelist($list, $item->mm_dep+1, $item->mm_idx);
 		}
 		$html .= "</li>";
 

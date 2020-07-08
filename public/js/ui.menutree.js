@@ -110,6 +110,9 @@ var uiMenuTree = (function(){
                 type : "GET",
                 url : "/setting/menu/list",
                 dataType : "json",
+                data : {
+                    "mt_idx" : $("select[name='mt_idx']").val()
+                },
 				success : function(res, textStatus) {
                     var el = $("#MenuTree");
 					if(res.status == 1) {
@@ -127,6 +130,9 @@ var uiMenuTree = (function(){
             $.ajax({
                 type : "GET",
                 url : "/setting/menu/sub_list/"+this.activeIdx,
+                data : {
+                    "mt_idx" : $("select[name='mt_idx']").val()
+                },                
                 dataType : "json",
 				success : function(res, textStatus) {
                     var el = $("#MenuTreeSub");
@@ -207,31 +213,30 @@ var uiMenuTree = (function(){
         },
         getItemDetail : function(idx){
             var that = this;
-            //console.log(that.totalList);
+            console.log(that.totalList);
             return that.totalList.filter(function(item){
-                return item.idx == (idx == null? that.activeSubIdx : idx);    
+                return item.mm_idx == (idx == null ? that.activeSubIdx : idx );   
             });
         },
         showDetail : function(){
             var currentItem = this.getItemDetail()[0];
-            $("input[name='m_name']").val(currentItem.m_name);
-            $("input[name='m_link']").val(currentItem.m_link);
-            $("input[name='m_pidx']").val(currentItem.m_pidx);
-            $("input[name='m_dep']").val(currentItem.m_dep);
+            $("input[name='mm_name']").val(currentItem.mm_name);
+            $("input[name='mm_link']").val(currentItem.mm_link);
+            $("input[name='mm_pidx']").val(currentItem.mm_pidx);
+            $("input[name='mm_dep']").val(currentItem.mm_dep);
         },
         resetDetail : function(){
-            $("input[name='m_name']").val("");
-            $("input[name='m_link']").val("");
+            $("input[name='mm_name']").val("");
+            $("input[name='mm_link']").val("");
             var dep = 0;
             var pidx = 0;
             if( this.activeIdx ){
                 var item = this.getItemDetail(this.activeIdx)[0];
-                dep = parseInt(item.m_dep)+1;
+                dep = parseInt(item.mm_dep)+1;
                 pidx = this.activeIdx;
             }
-
-            $("input[name='m_dep']").val(dep);
-            $("input[name='m_pidx']").val(pidx);
+            $("input[name='mm_dep']").val(dep);
+            $("input[name='mm_pidx']").val(pidx);
         }
     }
 })();

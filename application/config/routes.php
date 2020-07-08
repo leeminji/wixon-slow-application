@@ -56,4 +56,6 @@ $route['auth/(:any)'] = "auth/$1";
 $route['calendar/(:any)'] = "calendar/$1";
 $route['messages/(:any)'] = "messages/$1";
 $route['setting/menu/(:any)'] = "setting/menu/$1";
+$route['manage/(:any)/(:any)'] = "manage/$1/$2";
 $route['api/(:any)'] = "api/$1";
+$route['modules/(:any)'] = "modules/$1";

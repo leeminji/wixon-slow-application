@@ -4,6 +4,15 @@
 		<div class="Location">
 			<h1 class="Location__title">Menu Setting</h1>
 			<p class="Location__text">메뉴설정</p>
+            <div class="pt10"></div>
+            <div>
+                <select name="mt_idx" id="mt_idx" onchange="window.ui.location(this);">
+                    <option value="">메뉴선택</option>
+                    <?php foreach($type_list as $list){ ?>
+                    <option <?php echo $list->mt_idx == $mt_idx ? "selected" : "" ?> value="<?php echo $list->mt_idx ?>"><?php echo $list->mt_name; ?></option>
+                    <?php } ?>
+                </select>
+            </div>
         </div>
         <div class="pt10"></div>
         <div class="Layout__row">
@@ -15,7 +24,7 @@
                     <div class="MenuDetail__content">
                         <!-- MenuTree -->
                         <div class="MenuTree" id="MenuTree"></div>
-                        <!-- //MenuTree -->                    
+                        <!-- //MenuTree -->
                     </div>
                 </div> 
             </div>
@@ -42,22 +51,23 @@
                         <span id="MenuTreeControl__update" class="MenuTree__control">
                             <Button class="btn_basic" id="BtnUpdate"><span class='txt'>변경저장</span></Button>
                             <Button class="btn_basic" id="BtnDelete"><span class='txt'>메뉴삭제</span></Button>
-                        </span>                                          
+                        </span>
                     </div>
                     <div class="MenuDetail__content">
                         <form id="MenuTreeDetailForm">
-                            <input type="hidden" name="m_pidx" />
-                            <input type="hidden" name="m_dep" />
+                            <input type="hidden" name="mt_idx" value="<?php echo $mt_idx?>" />
+                            <input type="hidden" name="mm_pidx" />
+                            <input type="hidden" name="mm_dep" />
                             <div class="InputBox__basic">
                                 <div class="title">메뉴명</div>
                                 <div class="cont">
-                                    <input type="text" name="m_name" />
+                                    <input type="text" name="mm_name" />
                                 </div>
                             </div>
                             <div class="InputBox__basic">
                                 <div class="title">링크</div>
                                 <div class="cont">
-                                    <input type="text" name="m_link" />
+                                    <input type="text" name="mm_link" />
                                 </div>
                             </div>
                             <div class="InputBox__basic">
