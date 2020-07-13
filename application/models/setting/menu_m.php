@@ -115,5 +115,12 @@ class Menu_m extends CI_Model {
         }
         $this->db->query($sql);
     }
+
+    function get_item_by_link($link){
+        $sql = "SELECT * FROM {$this->table} WHERE mm_link='{$link}'";
+        $data = $this->db->query($sql)->result();
+        return $data;        
+    }
 }
+
 ?>

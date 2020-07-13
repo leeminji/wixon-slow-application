@@ -1,0 +1,20 @@
+/* 
+해당 데이터에 따라 달라지는  CSS 정리
+*/
+
+#tbl_erps_chapter .col1{width:8em}
+#tbl_erps_chapter .col2{width:auto}
+#tbl_erps_chapter .col3{width:10em}
+
+#tbl_erps_rps .col1{width:8em}
+#tbl_erps_rps .col2{width:18em}
+#tbl_erps_rps .col3{width:9em}
+#tbl_erps_rps .col4{width:9em}
+#tbl_erps_rps .col5{width:auto}
+#tbl_erps_rps .col6{width:10em}
+
+#tbl_report_detail .col1{width:4em}
+#tbl_report_detail .col2{width:11em}
+#tbl_report_detail .col3{width:auto}
+#tbl_report_detail .col4{width:10em}
+#tbl_report_detail .col5{width:10em}

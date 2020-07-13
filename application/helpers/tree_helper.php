@@ -8,7 +8,7 @@ if ( ! function_exists('get_to_tree'))
 	}
 }
 
-if ( ! function_exists('get_to_treelist'))
+if ( ! function_exists('get_to_tree_sub_list'))
 {
 	function get_to_tree_sub_list($list)
 	{

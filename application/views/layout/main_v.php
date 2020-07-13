@@ -5,11 +5,11 @@
     <div class="App" id="App">
     <?php $this->load->view($header, $option); ?>
     <!-- 본문 -->
-    <div class="Container">
+    <div class="Container" id="Container">
         <div class="Container__sidebar">    
             <?php $this->load->view($sidebar, $option); ?>
         </div>
-        <div class="Container__main">
+        <div class="Container__main" id="ContainerMain">
             <?php $this->load->view($page, $option); ?>
             <?php $this->load->view($footer, $option); ?>
         </div>

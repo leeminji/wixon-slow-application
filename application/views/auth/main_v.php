@@ -5,6 +5,6 @@
         <h4>Welcome <?php echo $userName ?></h4>
         <p>Use the navigation bar at the top of the page to get started.</p>
     <?php }else{ ?>
-        <a href="/auth/signin" class="btn btn-primary btn-large">Click here to sign in</a>
+        <a href="/sns/ms_auth" class="btn btn-primary btn-large">Click here to sign in</a>
     <?php } ?>
 </div>

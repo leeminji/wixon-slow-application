@@ -31,6 +31,9 @@
                 <li class="nav-item" data-turbolinks="false">
                     <a href="/messages" class="nav-link">Messages</a>
                 </li>
+                <li class="nav-item" data-turbolinks="false">
+                    <a href="/MsOneDrive" class="nav-link">MsOneDrive</a>
+                </li>
                 <?php } ?>
             </ul>
             <ul class="navbar-nav justify-content-end">
@@ -53,12 +56,12 @@
                     <h5 class="dropdown-item-text mb-0"><?php echo $userName ?></h5>
                     <p class="dropdown-item-text text-muted mb-0"><?php echo $userEmail ?></p>
                     <div class="dropdown-divider"></div>
-                    <a href="/auth/signout" class="dropdown-item">Sign Out</a>
+                    <a href="/sns/ms_auth/signout" class="dropdown-item">Sign Out</a>
                 </div>
                 </li>
                 <?php }else{ ?>
                 <li class="nav-item">
-                <a href="/auth/signin" class="nav-link">Sign In</a>
+                <a href="/sns/ms_auth/signin" class="nav-link">Sign In</a>
                 </li>
                 <?php } ?>
             </ul>

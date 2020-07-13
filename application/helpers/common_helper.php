@@ -32,6 +32,51 @@ function strcut_utf8($str, $len, $checkmb=false, $tail='..')
 	return join('', $ret).$tail;
 }
 
+function object_to_array($d) {
+    if (is_object($d)) {
+        // Gets the properties of the given object
+        // with get_object_vars function
+        $d = get_object_vars($d);
+    }
+ 
+    if (is_array($d)) {
+        /*
+        * Return array converted to object
+        * Using __FUNCTION__ (Magic constant)
+        * for recursive call
+        */
+        return array_map(__FUNCTION__, $d);
+    } else {
+        // Return array
+        return $d;
+    }
+}
+/** 
+ * array에서 해당하는 key, value를 찾아 배열로 리턴
+*/
+function make_array($array, $key, $value){
+	$return_array = array();
+	foreach($array as $ar){
+		$return_array[$ar->$key] = $ar->$value;
+	}
+	return $return_array;
+}
+
+function array_to_object($d) {
+	if (is_array($d)) {
+		/*
+		* Return array converted to object
+		* Using __FUNCTION__ (Magic constant)
+		* for recursive call
+		*/
+		return (object) array_map(__FUNCTION__, $d);
+	}
+	else {
+		// Return object
+		return $d;
+	}
+}
+
 function array_sort($array, $on, $order=SORT_ASC)
 {
 	$new_array = array();
@@ -65,6 +110,40 @@ function array_sort($array, $on, $order=SORT_ASC)
 	}
 
 	return $new_array;
+}
+
+function get_client_ip() {
+    $ipaddress = '';
+    if (getenv('HTTP_CLIENT_IP'))
+        $ipaddress = getenv('HTTP_CLIENT_IP');
+    else if(getenv('HTTP_X_FORWARDED_FOR'))
+        $ipaddress = getenv('HTTP_X_FORWARDED_FOR');
+    else if(getenv('HTTP_X_FORWARDED'))
+        $ipaddress = getenv('HTTP_X_FORWARDED');
+    else if(getenv('HTTP_FORWARDED_FOR'))
+        $ipaddress = getenv('HTTP_FORWARDED_FOR');
+    else if(getenv('HTTP_FORWARDED'))
+       $ipaddress = getenv('HTTP_FORWARDED');
+    else if(getenv('REMOTE_ADDR'))
+        $ipaddress = getenv('REMOTE_ADDR');
+    else
+        $ipaddress = 'UNKNOWN';
+    return $ipaddress;
+}
+
+function get_month($_month){
+    $monthString = array("Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec");
+    return $monthString[$_month];
+}
+
+function set_value($_array=null, $_key){
+	$result = "";
+	if( $_array != null ){
+		if( array_key_exists($_key, $_array) ){
+			$result = $_array->$_key;
+		}
+	}
+	return $result;
 }
 
 ?>

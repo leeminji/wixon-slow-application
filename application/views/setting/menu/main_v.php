@@ -22,6 +22,9 @@
                         <h1 class="title">전체메뉴</h1>
                     </div>
                     <div class="MenuDetail__content">
+                        <div class="MenuTree__item" onclick="uiMenuTree.init();">
+                            <div class="info"><span class="name">최상위메뉴</span></div>
+                        </div> 
                         <!-- MenuTree -->
                         <div class="MenuTree" id="MenuTree"></div>
                         <!-- //MenuTree -->
@@ -32,7 +35,7 @@
                 <form id="MenuTreeForm">
                 <div class="MenuDetail">
                     <div class="MenuDetail__top right">
-                    <Button class="btn_basic" id="BtnMoveSave"><span class='txt' >순서변경적용</span></Button>
+                    <Button class="Button Button__basic" id="BtnMoveSave"><span class='txt' >순서변경적용</span></Button>
                     </div>
                     <div class="MenuDetail__content">
                         <!-- MenuTree -->
@@ -46,11 +49,11 @@
                 <div class="MenuDetail">
                     <div class="MenuDetail__top right">
                         <span id="MenuTreeControl__create" class="MenuTree__control">
-                            <Button class="btn_basic" id="BtnCreate"><span class='txt'>하위메뉴등록</span></Button>
+                            <Button class="Button Button__basic" id="BtnCreate"><span class='txt'>하위메뉴등록</span></Button>
                         </span>    
                         <span id="MenuTreeControl__update" class="MenuTree__control">
-                            <Button class="btn_basic" id="BtnUpdate"><span class='txt'>변경저장</span></Button>
-                            <Button class="btn_basic" id="BtnDelete"><span class='txt'>메뉴삭제</span></Button>
+                            <Button class="Button Button__basic" id="BtnUpdate"><span class='txt'>변경저장</span></Button>
+                            <Button class="Button Button__basic" id="BtnDelete"><span class='txt'>메뉴삭제</span></Button>
                         </span>
                     </div>
                     <div class="MenuDetail__content">

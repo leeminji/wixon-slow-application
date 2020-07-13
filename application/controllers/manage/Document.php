@@ -8,7 +8,7 @@ class Document extends SL_Controller {
 	}
 
 	public function main(){
-        $mid = $this->input->get("mode") == null ? 48 : $this->input->get("mode");
+        $mid = $this->input->get("mode") == "" ? 48 : $this->input->get("mode");
 		$option = array(
 			"list" => ['1111','2222'],
             "title" => "Welcome",

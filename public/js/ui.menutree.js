@@ -4,10 +4,15 @@ var uiMenuTree = (function(){
         activeSubIdx : null,
         totalList : null,
         init : function(){
+            this.activeIdx = 0;
+            this.activeSubIdx = null;
+            this.totalList = null;
+
             this.list();
             this.sub_list();
             this.control_event();
             this.isControl(false);
+            this.resetDetail();
         },
         control_event : function(){
             var that = this;

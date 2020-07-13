@@ -49,13 +49,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'welcome';
+$route['default_controller'] = 'dashboard';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
-$route['auth/(:any)'] = "auth/$1";
-$route['calendar/(:any)'] = "calendar/$1";
-$route['messages/(:any)'] = "messages/$1";
-$route['setting/menu/(:any)'] = "setting/menu/$1";
-$route['manage/(:any)/(:any)'] = "manage/$1/$2";
-$route['api/(:any)'] = "api/$1";
-$route['modules/(:any)'] = "modules/$1";
+// $route['auth/(:any)'] = "auth/$1";
+// $route['calendar/(:any)'] = "calendar/$1";
+// $route['messages/(:any)'] = "messages/$1";
+// $route['setting/menu/(:any)'] = "setting/menu/$1";
+// $route['manage/(:any)/(:any)'] = "manage/$1/$2";
+// $route['api/(:any)'] = "api/$1";
+// $route['modules/(:any)'] = "modules/$1";
+
+
+$route['([a-z0-9_]+)/([a-z0-9_]+)/(\d+)'] = "$1/$2/$3";
+$route['([a-z0-9_]+)/([a-z0-9_]+)/(\d+)/(\d+)'] = "$1/$2/$3";
+$route['([a-z0-9_]+)/([a-z0-9_]+)/([a-z0-9_]+)/(\d+)/(\d+)'] = "$1/$2/$3/$4";
+$route['([a-z0-9_]+)/([a-z0-9_]+)/(\d+)'] = "$1/$2";
+$route['([a-z]+)/(\d+)'] = "$1";
