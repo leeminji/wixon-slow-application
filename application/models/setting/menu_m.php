@@ -78,6 +78,12 @@ class Menu_m extends CI_Model {
         return $data;
     }
 
+    function get_type($idx){
+        $sql = "SELECT * FROM {$this->type_table} WHERE mt_idx={$idx}";
+        $data = $this->db->query($sql)->row();
+        return $data;
+    }
+
     function get_all_items($t_idx){
         $sql = "SELECT menu.*, type.mt_name as mt_name
             FROM {$this->table} menu LEFT JOIN {$this->type_table} type 

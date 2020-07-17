@@ -47,7 +47,7 @@
 				<?php foreach($rps_list as $ls){ ?>
 				<div class="Draggable__item">
 					<input type="hidden" name="nr_idx[]" value="<?php echo $ls->nr_idx ?>">
-					<span class="col col1"><?php echo ($ls->nr_num)+1 ?></span>
+					<span class="col col1"><?php echo ($ls->nr_num) ?></span>
 					<span class="col col2">
 						<div class="TextAreaInput">
 						<textarea size="100" name="nr_title[]"><?php echo $ls->nr_title?></textarea></div>

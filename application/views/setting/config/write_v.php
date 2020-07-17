@@ -6,124 +6,104 @@
 			<p class="Location__text">웹사이트에 대한 설정을 적용할 수 있습니다.</p>
 		</div>
 		<div class="pt10"></div>
-		<form action="<?php echo $action_url?>" method="post" id="frm" class="form-horizontal">
-		<div class="panel-body">
-			<div class="panel panel-default">
-				<input type="hidden" name="cf_url_prev" value="<?php echo $view -> cf_url ?>" />
-				<div class="panel-heading"><span class="glyphicon glyphicon-cog"></span>기본환경설정</div>
-				<div class="panel-body">
-					<div class="form-group">
-						<label for="cf_title" class="col-sm-3 control-label">웹 URL</label>
-						<div class="col-sm-9">
-							<div class="input-group">
-								<input type="text" class="form-control" name="cf_url"  value="<?php echo $view -> cf_url ?>" />
-								<a href="javascript:;" id="btn-modify-url" class="input-group-addon">컨텐츠 웹사이트 URL 수정</a>
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="cf_title" class="col-sm-3 control-label">웹사이트명</label>
-						<div class="col-sm-9">
-							<input type="text" class="form-control" name="cf_title"  value="<?php echo $view -> cf_title ?>" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="cf_admin" class="col-sm-3 control-label">관리자</label>
-						<div class="col-sm-9">
-							<input type="text" class="form-control" name="cf_admin"  value="<?php echo $view -> cf_admin ?>" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="cf_admin_email" class="col-sm-3 control-label">관리자메일</label>
-						<div class="col-sm-9">
-							<input type="text" class="form-control" name="cf_admin_email"  value="<?php echo $view -> cf_admin_email ?>" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="cf_admin_name" class="col-sm-3 control-label">관리자명</label>
-						<div class="col-sm-9">
-							<input type="text" class="form-control" name="cf_admin_name"  value="<?php echo $view -> cf_admin_name ?>" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="cf_addr1" class="col-sm-3 control-label">우편번호</label>
-						<div class="col-sm-5">
-							<div class="input-group">
-								<div class="input-group-addon">우편번호</div>
-								<input type="text" class="form-control" name="cf_zip"  value="<?php echo $view -> cf_zip ?>" id="postcode" />
-							</div>
-						</div>
-						<div class="col-sm-4 col-md-3 col-lg-2">
-							<button class="btn btn-primary btn-block" id="btn-zip">우편번호검색</button>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="cf_addr1" class="col-sm-3 control-label">주소</label>
-						<div class="col-sm-6">
-							<input type="text" class="form-control" name="cf_addr1"  value="<?php echo $view -> cf_addr1 ?>" id="address" placeholder="주소" />
-						</div>
-						<div class="col-sm-3">
-							<input type="text" class="form-control" name="cf_addr2" value="<?php echo $view -> cf_addr2 ?>" id="address2" placeholder="상세주소" />
-						</div>
-					</div>
-					<span id="guide" style="color:#999"></span>
-					<div class="form-group">
-						<label for="cf_tel" class="col-sm-3 control-label">전화번호</label>
-						<div class="col-sm-9">
-							<input type="text" class="form-control" name="cf_tel"  value="<?php echo $view -> cf_tel ?>" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="cf_fax" class="col-sm-3 control-label">팩스번호</label>
-						<div class="col-sm-9">
-							<input type="text" class="form-control" name="cf_fax"  value="<?php echo $view -> cf_fax ?>" />
-						</div>
-					</div>
+		<form action="<?php echo $action_url?>" method="post" id="frm">
+		<div class="pt10"></div>
+		<div class="Form__title"><span>기본정보</span></div>
+		<div class="Form">
+			<input type="hidden" name="cf_url_prev" value="<?php echo $view -> cf_url ?>" />
+			<div class="Form__group">
+				<label for="cf_title" class="Form__label">웹 URL</label>
+				<div class="Form__data">
+					<input type="text" name="cf_url"  value="<?php echo $view -> cf_url ?>" />
+					<a href="javascript:;" id="btn-modify-url" class="Button Button__basic">컨텐츠 웹사이트 URL 수정</a>
+				</div>
+			</div>
+			<div class="Form__group">
+				<label for="cf_title" class="Form__label">웹사이트명</label>
+				<div class="Form__data">
+					<input type="text" name="cf_title"  value="<?php echo $view -> cf_title ?>" />
+				</div>
+			</div>
+			<div class="Form__group">
+				<label for="cf_admin" class="Form__label">관리자</label>
+				<div class="Form__data">
+					<input type="text" name="cf_admin"  value="<?php echo $view->cf_admin ?>" />
+				</div>
+			</div>
+			<div class="Form__group">
+				<label for="cf_admin_email" class="Form__label">관리자메일</label>
+				<div class="Form__data">
+					<input type="text" name="cf_admin_email"  value="<?php echo $view->cf_admin_email ?>" />
+				</div>
+			</div>
+			<div class="Form__group">
+				<label for="cf_admin_name" class="Form__label">관리자명</label>
+				<div class="Form__data">
+					<input type="text" name="cf_admin_name"  value="<?php echo $view->cf_admin_name ?>" />
+				</div>
+			</div>
+			<div class="Form__group">
+				<label for="" class="Form__label">우편번호</label>
+				<div class="Form__data">
+					<input type="text" name="cf_zip"  value="<?php echo $view->cf_zip ?>" />
+					<button class="Button Button__basic" id="btn-zip">우편번호검색</button>
+				</div>
+			</div>		
+			<div class="Form__group">
+				<label for="cf_addr1" class="Form__label">주소</label>
+				<div class="Form__data">
+					<input type="text" name="cf_addr1"  value="<?php echo $view->cf_addr1 ?>" size="100" />
+				</div>
+			</div>	
+			<div class="Form__group">
+				<label for="cf_addr2" class="Form__label">상세주소</label>
+				<div class="Form__data">
+					<input type="text" name="cf_addr2"  value="<?php echo $view->cf_addr2 ?>" size="100" />
+				</div>
+			</div>	
+			<div class="Form__group">
+				<label for="cf_tel" class="Form__label">전화번호</label>
+				<div class="Form__data">
+					<input type="text" name="cf_tel"  value="<?php echo $view->cf_tel ?>" />
+				</div>
+			</div>	
+			<div class="Form__group">
+				<label for="cf_fax" class="Form__label">팩스번호</label>
+				<div class="Form__data">
+					<input type="text" name="cf_fax"  value="<?php echo $view->cf_fax ?>" />
+				</div>
+			</div>
+		</div>	
+		<div class="pt10"></div>
+		<div class="Form__title"><span>가입정보</span></div>
+		<div class="Form">
+			<div class="Form__group">
+				<label for="cf_privacy" class="Form__label">개인정보취급방침</label>
+				<div class="Form__data">
+					<textarea rows="3" size="100" name="cf_privacy"><?php echo $view->cf_privacy ?></textarea>
+				</div>
+			</div>	
+			<div class="Form__group">
+				<label for="cf_privacy" class="Form__label">서비스이용약관</label>
+				<div class="Form__data">
+					<textarea rows="3" size="100" name="cf_service"><?php echo $view->cf_service ?></textarea>
+				</div>
+			</div>	
+			<div class="Form__group">
+				<label for="cf_is_phone" class="Form__label">회원가입</label>
+				<div class="Form__data">
+					<label>
+						<input type="checkbox" value="1" name="cf_is_phone" <?php echo $view -> cf_is_phone == "1" ? "checked":""; ?>> 전화번호 사용
+					</label>
+					<label>
+						<input type="checkbox" value="1" name="cf_email_auth" <?php echo $view -> cf_email_auth == "1" ? "checked":""; ?>> 메일인증 사용
+					</label>
 				</div>
 			</div>
 		</div>
-		<div class="panel-body">
-			<div class="panel panel-warning">
-				<div class="panel-heading"><span class="glyphicon glyphicon-cog"></span> 가입환경설정</div>
-				<div class="panel-body">
-					<div class="form-group">
-						<label for="cf_privacy" class="col-sm-3 control-label">개인정보취급방침</label>
-						<div class="col-sm-9">
-							<textarea class="form-control" rows="3" name="cf_privacy"><?php echo $view -> cf_privacy ?></textarea>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="cf_service" class="col-sm-3 control-label">서비스이용약관</label>
-						<div class="col-sm-9">
-							<textarea class="form-control" rows="3" name="cf_service"><?php echo $view -> cf_service ?></textarea>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="cf_is_phone" class="col-sm-3 control-label">회원가입</label>
-						<div class="col-sm-3">
-							<div class="checkbox">
-								<label>
-								<input type="checkbox" value="1" name="cf_is_phone" <?php echo $view -> cf_is_phone == "1" ? "checked":""; ?>> 전화번호 사용
-								</label>
-							</div>
-						</div>
-						<div class="col-sm-3">
-							<div class="checkbox">
-								<label>
-								<input type="checkbox" value="1" name="cf_email_auth" <?php echo $view -> cf_email_auth == "1" ? "checked":""; ?>> 메일인증 사용
-								</label>
-							</div>
-						</div>					
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="panel-footer">
-			<div class="row">
-			<div class="col-sm-12 text-right">
-				<button type="submit" id="btn-write" class="btn-lg btn btn-primary"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Write</button>
-			</div>
-			</div>
+		<div class="pt10"></div>
+		<div class="Button__group right">
+			<button type="submit" id="btn-write"  class="Button Button__update"><span>수정</span></button>
 		</div>
 		</form>
 	</div>

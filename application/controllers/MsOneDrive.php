@@ -28,7 +28,7 @@ class MsOneDrive extends CI_Controller {
 			// '$orderby' => 'createdDateTime DESC'
 		);
 
-		$getEventsUrl = '/me/drive/recent?'.http_build_query($queryParams);
+		$getEventsUrl = '/me/drive?'.http_build_query($queryParams);
 		$events = $graph->createRequest('GET', $getEventsUrl)
 		->setReturnType(Model\Event::class)
 		->execute();
@@ -37,9 +37,31 @@ class MsOneDrive extends CI_Controller {
         $this->output->set_output(json_encode($events));	  		
 	}
 
+	public function sites(){
+		$site_id = $this->input->get('site_id') == null ? "root" : $this->input->get('site_id');
+		
+        $loadData = $this->loaddata->get();
+		$accessToken = $this->tokenCache_m->getAccessToken();
+		$queryParams = array(
+			// '$select' => 'subject,organizer,start,end',
+			// '$orderby' => 'createdDateTime DESC'
+		);
+		$graph = new Graph();
+		$graph->setAccessToken($accessToken);
+		$getEventsUrl = "/sites/{$site_id}/lists?".http_build_query($queryParams);
+		echo $getEventsUrl;
+
+		$events = $graph->createRequest('GET', $getEventsUrl)
+		->setReturnType(Model\Event::class)
+		->execute();
+		
+		$this->output->set_content_type('text/json');
+		$this->output->set_output(json_encode($events));
+
+	}
+
 	public function drives(){
 
-        $data['page'] = '/ms/file_explore_v';
 		$drive_id = $this->input->get('drive_id');
 		
         $loadData = $this->loaddata->get();
@@ -140,7 +162,6 @@ class MsOneDrive extends CI_Controller {
 
 	public function download(){
 		$item_id = $this->input->get("item_id");
-		$version_id = $this->input->get("version_id");
 		
         $loadData = $this->loaddata->get();
 		$accessToken = $this->tokenCache_m->getAccessToken();

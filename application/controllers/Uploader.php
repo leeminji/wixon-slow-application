@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Uploader extends CI_Controller {
+class Uploader extends SL_Controller {
 	public function __construct()
 	{
 		parent::__construct();
@@ -17,11 +17,11 @@ class Uploader extends CI_Controller {
 
 	}
 
-	public function binary(){
-		$filename = "C:\\Users\\MJ\\Downloads\\test.png";
-		$handle = fopen($filename, "rb");
-		$contents = fread($handle, filesize($filename));
-		fclose($handle);
-		echo $contents;
+	public function tester(){
+		$data = array(
+			"title" => "업로드"
+		);
+		$this->_modal_view('uploader/tester_v', $data);
 	}
+
 }

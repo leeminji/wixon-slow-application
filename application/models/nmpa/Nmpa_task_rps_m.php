@@ -10,6 +10,14 @@ class Nmpa_task_rps_m extends CI_Model{
         // Call the Model constructor
         parent::__construct();
     }
+    
+    function get_item($idx){
+        $sql = "SELECT rps.*, LPAD(rps.nr_num+1,2,0) as nr_num, chapter.nc_title FROM {$this->table} rps LEFT JOIN {$this->table_ch} chapter
+        ON rps.nc_idx = chapter.nc_idx
+        WHERE rps.nr_idx={$idx}";
+        $result = $this->db->query($sql)->row();
+        return $result;
+    }
 
     function get_items($ta_idx, $nc_idx){
         $sql = "SELECT rps.*, LPAD(rps.nr_num+1,2,0) as nr_num, chapter.nc_title FROM {$this->table} rps LEFT JOIN {$this->table_ch} chapter

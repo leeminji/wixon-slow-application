@@ -7,28 +7,41 @@ class SL_Controller extends CI_Controller {
 
     function __construct(){
         parent::__construct();
-
+        
         $member = array(
             'mb_id'=> 'admin',
             'mb_level' => 10,
             'mb_group' => 'G01'
         );
 
-        $this->load->helper(array("alert","common", "menu"));
+        $this->load->helper(array("alert","common", "menu", "token", "formtag", "form"));
         $this->load->model('setting/menu_m');
+        $this->load->model('auth/member_m');
+
+        $this->_require_ip();
 
 		//현재화면 메뉴 고유번호
 		$last_segment = $this->uri->total_segments();        
         $this->midx = ( is_numeric($this->uri->segment($last_segment))) ? $this->uri->segment($last_segment) : 1;
+        
+        //로그인 멤버정보
+        if($this->session->userdata('logged_in')){ 
+            $this->user_info = $this->session->userdata('userinfo');
+        }
+    }
 
+    function _require_ip(){
+        $client_ip = get_client_ip();
+        if( !in_array($client_ip, $this->config->item('access_ips')) ){
+            alert_back('접근 불가능한 IP 주소입니다.'.$client_ip);
+        }
     }
 
     //로그인차단
     function _require_login($return_url)
 	{
         // 로그인이 되어 있지 않다면 로그인 페이지로 리다이렉션
-        if($this->session->userdata('logged_in') == null){
-            $this->load->helper('alert');
+        if($this->session->userdata('logged_in') == null){       
 			$msg = "로그인 먼저 해 주세요";
 			$url = '/auth/login?return_url='.rawurlencode($return_url);            
             redirect($url);
@@ -46,10 +59,23 @@ class SL_Controller extends CI_Controller {
         $this->load->view("layout/layout_login_v", $option);
     }
 
-    //레이어뷰
+    //modal 뷰
+    function _modal_view($page, $option=[]){
+        // 로그인 체크
+		$return_url = uri_string();
+        $this->_require_login($return_url);
+
+        $option = array(
+            "page" => $page,
+            "option" => $option
+        );
+        $this->load->view("layout/layout_modal_v", $option);
+    }
+    
+    //layer 뷰
     function _layer_view($page, $option=[]){
         // 로그인 체크
-		$return_url = "/".uri_string();
+		$return_url = uri_string();
         $this->_require_login($return_url);
 
         $option = array(
@@ -59,10 +85,11 @@ class SL_Controller extends CI_Controller {
         $this->load->view("layout/layout_layer_v", $option);
     }
 
+
     //json 뷰
     function _json_view($result){
         // 로그인 체크
-		$return_url = "/".uri_string();
+		$return_url = uri_string();
         $this->_require_login($return_url);
 
         $this->output->set_content_type('text/json');
@@ -73,9 +100,11 @@ class SL_Controller extends CI_Controller {
     function _view($page, $option=[]){
 
         // 로그인 체크
-		$return_url = "/".uri_string();
+		$return_url = uri_string();
         $this->_require_login($return_url);
         
+        $this->menu_type =$this->menu_m->get_all_types();
+
         //메뉴설정
         $this->normal_menu = get_to_menu($this->menu_m->get_all_items(1), $this->midx); //menu
         $this->manage_menu = get_to_menu($this->menu_m->get_all_items(2), $this->midx); //manager

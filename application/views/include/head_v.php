@@ -10,8 +10,13 @@
         
     <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-icons.min.css">
     <link href="/public/css/dashboard.css?v=<?php echo time()?>" rel="stylesheet" />
+
     <script src="/public/js/jquery-1.9.1.js"></script>
     <script src="/public/js/jquery-ui.js"></script>
+
+    <!-- 에디터 -->
+    <script type="text/javascript" src="/include/lib/ckeditor/ckeditor.js" ></script>
+
     <script src="/public/js/ui.js?v=<?php echo time()?>"></script>
 </head>
 <div class="loading" id="loading"><div class="img"><span class="skip">Loading...</span></div></div>

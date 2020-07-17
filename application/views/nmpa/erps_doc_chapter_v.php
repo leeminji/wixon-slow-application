@@ -11,7 +11,7 @@
 		<form action="" class="Form">
 			<div class="Form__group">
 				<div class="Form__label">
-					<label for="ta_idx">업무선택</label>
+					<label for="ta_idx">분류선택</label>
 				</div>
 				<div class="Form__data">
 					<?php echo $task_select ?>
@@ -20,7 +20,8 @@
 			</div>
 		</form>
 		<div class="pt10"></div>
-		<form action="" class="Form">
+		<form class="Form" id="ChapterForm">
+			<input type="hidden" name="ta_default" value="<?php echo $ta_default ?>">
 			<!-- Draggable -->
 			<div class="Draggable" id="tbl_erps_chapter">
 				<div class="Draggable__title">
@@ -37,19 +38,19 @@
 					<div class="Draggable__list">
 						<div class="Draggable__item">
 							<span class="col col1">등록</span>
-							<span class="col col1"><input type="text" value="" size="100" placeholder="CH 등록" /></span>
+							<span class="col col1"><input type="text" name="nc_title_new" size="100" placeholder="CH" /></span>
 							<span class="col col2">
-								<input type="text" value="" size="100" placeholder="목록등록" />
+								<input type="text" size="100" placeholder="목록" name="nc_name_new" />
 							</span>
 							<span class="col col3">
-								<button class="Button Button__basic"><span>등록</span></button>
+								<a href="javascript:;" class="Button Button__basic" id="BtnSubmit"><span>등록</span></a>
 							</span>
 						</div>
 					</div>
 				</div>
 				<div class="Draggable__body">
-					<div class="Draggable__list">
-						<?php foreach($chacter_list as $ls){ ?>
+					<div class="Draggable__list" id="ChapterList">
+						<?php foreach($chapter_list as $ls){ ?>
 						<div class="Draggable__item">
 							<input type="hidden" name="nc_idx[]" value="<?php echo $ls->nc_idx ?>">
 							<span class="col col1"><?php echo ($ls->nc_num)+1 ?></span>
@@ -58,17 +59,114 @@
 								<input class="InputText" type="text" value="<?php echo $ls->nc_name?>" size="100" name="nc_name[]" />
 							</span>
 							<span class="col col3">
-								<button class="Button Button__basic"><span>수정</span></button>
+								<a href="javascript:;" class="Button Button__basic BtnUpdate"><span>수정</span></a>
+								<a href="javascript:;" class="Button Button__update BtnDelete"><span>삭제</span></a>
 							</span>
 						</div>
 						<?php } ?>
 					</div>
 				</div>
 				<div class="Draggable__bottom">
-					<button class="Button Button__basic"><span>순서수정</span></button>
+					<a href="javascript:;" class="Button Button__basic" id="BtnOrder"><span>순서수정</span></a>
 				</div>
 			</div>
 			<!-- //Draggable -->
 		</form>
 	</div>
 </main>
+
+<script>
+	$(document).ready(function(){
+		chatper.init();
+	});
+
+	var chatper = {
+		url : "/nmpa/erps_doc/chapter",
+		init : function(){
+			var that = this;
+			$("#BtnSubmit").on('click', function(e){
+				e.preventDefault();
+				that.insert();
+			});
+
+			$("#ChapterList").children("div").each(function(){
+				var item = $(this);
+				item.on('click', ".BtnUpdate", function(e){
+					var data = {
+						'nc_title' : item.find('[name="nc_title[]"]').val(),
+						'nc_name' : item.find('[name="nc_name[]"]').val(),
+						'nc_idx' : item.find('[name="nc_idx[]"]').val(),
+					};
+					that.update(data);
+				});
+				item.on("click", ".BtnDelete", function(e){
+					var data = {
+						'nc_idx' : item.find('[name="nc_idx[]"]').val(),
+					};
+					item.remove();
+					that.delete(data);
+				});
+			});
+			$("#ChapterList").sortable({
+				"ui-sortable": "highlight",
+				axis : "y",
+				cancel: "a,button,input",
+				cursor: "move",
+				items: "> div"
+			});
+			$("#BtnOrder").on("click", function(e){
+				e.preventDefault();
+				that.order_change();
+			});
+		},
+		order_change : function(){
+			var that = this;
+			var form_data = $("#ChapterForm").serialize();
+			$.ajax({
+				url : that.url+"/order",
+				type : "POST",
+				data : form_data,
+				success : function(data){
+					alert(data.msg);
+					window.location.reload();
+				}
+			})
+		},
+		insert : function(){
+			var that = this;
+			var form_data = $("#ChapterForm").serialize();
+			$.ajax({
+				url : that.url+"/write",
+				type : "POST",
+				data : form_data,
+				success : function(data){
+					alert(data.msg);
+					window.location.reload();
+				}
+			})
+		},
+		update : function(data){
+			var that = this;
+			$.ajax({
+				url : that.url+"/update",
+				type : "POST",
+				data : data,
+				success : function(data){
+					alert(data.msg);
+				}
+			})		
+		},
+		delete : function(data){
+			var that = this;
+			$.ajax({
+				url : that.url+"/delete",
+				type : "POST",
+				data : data,
+				success : function(data){
+					alert(data.msg);
+					that.order_change();
+				}
+			})		
+		}
+	}
+</script>

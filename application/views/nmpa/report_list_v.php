@@ -14,25 +14,36 @@
 				<colgroup>
 					<col style="width:3em">
 					<col style="width:10em">
-					<col>
-					<col style="width:8em">
+					<col style="width:10em">
+					<col style="width:5em">
+					<col style="width:5em">
+					<col style="width:5em">
+					<col style="width:12em">
 					<col style="width:7em">
-					<col style="width:15em">
 					<col style="width:7em">
 					<col style="width:7em">
-					<col style="width:18em">
+					<col style="width:7em">
+					<col style="width:7em">
+					<col style="width:11em">
 				</colgroup>
 				<thead>
 					<tr>
-						<th>NO.</th>
-						<th>제조사명</th>
-						<th>제품명</th>
-						<th>품목유형</th>
-						<th>업무종류</th>
-						<th>품목유형</th>
-						<th>계약일</th>
-						<th>종료일</th>
-						<th>등록</th>
+						<th rowspan="2">NO.</th>
+						<th rowspan="2">제조사</th>
+						<th rowspan="2">제품명</th>
+						<th rowspan="2">기기구분</th>
+						<th rowspan="2">등급</th>
+						<th rowspan="2">업무</th>
+						<th rowspan="2">품목유형</th>
+						<th colspan="3">진행상황</th>
+						<th rowspan="2">계약일</th>
+						<th rowspan="2">종료일</th>
+						<th rowspan="2">등록</th>
+					</tr>
+					<tr>
+						<th>1단계</th>
+						<th>2단계</th>
+						<th>3단계</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -43,21 +54,27 @@
 					<tr>
 						<td><?php echo $lt->num ?></td>
 						<td><a href="<?php echo $lt->link; ?>"><?php echo $lt->re_mf ?></a></td>
-						<td><a href="<?php echo $lt->link; ?>"><?php echo $lt->re_pr_name ?></a></td>
-						<td><?php echo $lt->ta_default ?></td>
+						<td class="left"><a href="<?php echo $lt->link; ?>"><?php echo $lt->re_pr_name ?></a></td>
+						<td><?php echo $lt->de_name ?></td>
+						<td><?php echo $lt->re_grade ?></td>
 						<td><?php echo $lt->ty_name ?></td>
-						<td><?php echo $lt->rc_name ?></td>
+						<td><spn class="font_sm"><?php echo $lt->rc_name ?></spn></td>
+						<td></td>
+						<td></td>
+						<td></td>
 						<td><?php echo substr($lt->re_contracted_at, 0, 10) ?></td>
 						<td><?php echo substr($lt->re_ended_at, 0, 10) ?></td>
 						<td>
-							<a href="<?php echo $report_detail_link; ?>" class="Button Button__basic">진행보고서등록</a>
-							<a href="<?php echo $report_status_link; ?>" class="Button Button__update">진행상황등록</a>
+							<div class="p5">
+							<a href="<?php echo $report_detail_link; ?>" class="Button Button__basic" size="8">진행보고서등록</a>
+							<a href="<?php echo $report_status_link; ?>" class="Button Button__update" size="8">진행상황등록</a>
+							</div>
 						</td>
 					</tr>
 					<?php } ?>
 				</tbody>
 			</table>		
 		</div>
-
+		<?php echo $pagination; ?>
 	</div>
 </main>

@@ -4,7 +4,7 @@
 
 /* Layout */
 html, body{height:100%;width:100%;}
-.App{height:100%;width:100%;min-width: 110em;position: relative;z-index: 10;}
+.App{height:100%;width:100%;position: relative;z-index: 10;/*min-width: 110em;*/}
 .App__container{height:100%;width:100%;}
 
 .Container{position: absolute;top:3rem;bottom:0;width:100%}
@@ -16,12 +16,17 @@ html, body{height:100%;width:100%;}
 /* FullPage */
 .FullPage .Container__main{padding-left:0}
 
-.Header{position: fixed;top:0;right:0;left:0;height:3rem;background-color: #eee;}
+.Header{position: absolute;top:0;right:0;left:0;height:3rem;background-color: #eee;}
 .Footer{padding:1rem 2rem;text-align: center;}
 
 .Page{box-sizing: border-box;min-height:45em;}
 .Page__inner{padding:2rem;}
 .Page__setting{position: absolute;right:0;top:0}
+
+/* Dialog */
+.Dialog{position: fixed;top:50%;left:50%;width:20em;margin-left:-10em;margin-top:-10em;background-color:rgba(255,255,255,0.5);border:1px solid #efefef;z-index:1000;border-radius: .5em;box-shadow:0 0 10px rgba(0,0,0,0.1);}
+.Dialog__msg{text-align: center;padding:3em 0;line-height:1em;font-weight: bold;color:#004E6D}
+.Dialog.danger .Dialog__msg{color:tomato}
 
 /* Layout */
 .Layout__row:after{content:'';display: block;clear: both;}
@@ -42,11 +47,16 @@ html, body{height:100%;width:100%;}
   display: inline-block;
   min-width:2em;padding:0 .6rem;line-height:2rem;color:#fff;border-radius: 3px;}
 .Button[class*="Button_"] > .txt{display: inline-block;letter-spacing: -1px;font-size:0.875rem;line-height: 1rem;vertical-align: middle;}
-
+.Button[size="8"]{width:8em;}
+.Button[size="9"]{width:9em;}
+.Button[size="10"]{width:10em;}
+.Button[size="11"]{width:11em;}
 .Button.Button__basic{background-color:#000;}
 .Button.Button__basic:hover{background-color:#222;}
 .Button.Button__update{background-color:royalblue;}
 .Button.Button__update:hover{background-color:royalblue;}
+.Button.Button__delete{background-color:tomato;}
+.Button.Button__delete:hover{background-color:tomato;}
 .Button.Button__login{background-color:teal}
 .Button.Button__create{background-color:teal;}
 .Button.Button__create:hover{background-color:teal;}
@@ -63,6 +73,12 @@ html, body{height:100%;width:100%;}
   border-radius: 3px;
 }
 .RadiusBox__baisc{background:#fff;color:#222;border:1px solid #eee}
+
+/* AlertArea */
+.AlertArea{}
+.AlertArea__item{margin-bottom:.3em;padding:.8em .5em;border:1px solid #efefef;border-radius: 3px;}
+.AlertArea__item span{font-size:.8em;display: inline-block;padding:0 .5em}
+.AlertArea__danger{background-color:#ffcece}
 
 /* DataLink */
 .DataLink__list{text-align: center;}
@@ -92,19 +108,28 @@ html, body{height:100%;width:100%;}
 .DataLink__empty{text-align: center;padding:1em 0}
 
 /* TableStyle */
-.TableStyle__1{border-top:2px solid #000}
+.TableStyle__1{border-top:2px solid #000;line-height: 1.2em;}
+.TableStyle__1 .font_sm{font-size:0.9em}
 .TableStyle__1 thead th{height:3em}
 .TableStyle__1 tbody td{height:3em;}
-.TableStyle__1 td, .TableStyle__1 th{border-bottom:1px solid #eee;margin:0;padding:0}
+.TableStyle__1 td, .TableStyle__1 th{border-bottom:1px solid #cecece;margin:0;padding:0}
 .TableStyle__1 td.left{text-align: left;}
+.TableStyle__1 td.empty{height:3em;text-align: center;}
+
+/* Layer */
+.Layer__content{position:relative;min-height:30em;}
+.Layer__loading{position: absolute;left:50%;height:3em;width:3em;top:50%;margin-top:-1.5em;margin-left:-1.5em;background:url(../images/common/ajax-loader-big.gif) center no-repeat;background-size:3em auto;}
 
 /* Header */
-.Header__Logo{float:left;background-color:#8eafbc;width:16em;}
-.Header__Logo > a{line-height: 3em;color:#fff;font-weight: bold;text-align: center;display: block;}
+.Header__inner:after{content:'';display: block;clear: both;}
+.Header__logo{float:left;background-color:#8eafbc;width:16em;}
+.Header__logo > a{line-height: 3em;color:#fff;font-weight: bold;text-align: center;display: block;}
 .Header__nav{float: right;padding-right: 1em;}
 .Navi__list:after{content:'';display: block;clear: both;}
 .Navi__item{display:inline-block;line-height: 3em;}
 .Navi__item > a{display: inline-block;padding:.5em 1em;background:#fff;vertical-align: baseline;border-radius: 3px;}
+.Header__info{position: absolute;left:17em;top:0;line-height: 3em;}
+.Header__info span{line-height: 1em;}
 
 /* Sidebar */
 .Sidebar{}
@@ -189,16 +214,19 @@ html, body{height:100%;width:100%;}
 .LoginForm__bottom{text-align: center;padding-top:1em}
 
 /* Modal */
-.Modal{display: none;position: fixed;top:0;bottom:0;left:0;right:0;z-index:1000}
-.Modal.active{display: block;}
+.Modal{z-index:-1;opacity:0;position: fixed;top:0;bottom:0;left:0;right:0;}
+.Modal.active{z-index:1000;opacity: 1;}
 .Modal__close{position: absolute;right:1em;top:50%;margin-top:-1em;width:3em;line-height: 2em;text-align: center;color:#fff;}
 .Modal__close:hover{color:#fff}
+
 .Modal__inner{width:80em;background:#fff;position: absolute;left:50%;top:20%;margin-left:-40em;z-index:10;}
 .Modal__top{padding:1.5em;background:#004E6D;position: relative;}
 .Modal__title{color:#fff;font-size:1.4em;}
-.Modal__content{padding:2em;}
+.Modal__content{padding:2em;box-sizing: border-box;max-height: 40em;overflow-y: auto;}
 .Modal__blind{position: absolute;width:100%;height: 100%;background:rgba(0,0,0,0.2);z-index:1}
 
+.Modal.size_sm .Modal__inner{width:50em;margin-left:-25em}
+.Modal.size_xs .Modal__inner{width:30em;margin-left:-15em}
 
 /* StepList */
 .StepList__list{text-align: left;list-style: none;}
@@ -207,3 +235,9 @@ html, body{height:100%;width:100%;}
 .StepList__item.active > a{background-color:#004E6D;color:#fff}
 .StepList__item > a{border:1px solid #eee;display: inline-block;padding:.5em 1em;}
 .StepList__item > a:hover{background-color: #efefef;}
+
+
+/* Pagination */
+.Pagination{padding:1em 0;text-align:center}
+.Pagination strong, .Pagination a{display:inline-block;width:2em;line-height:2em;margin:0 2px;border:1px solid #000;color:#000;text-align:center;vertical-align:middle}
+.Pagination strong{background:#efefef}

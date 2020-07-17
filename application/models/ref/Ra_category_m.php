@@ -3,6 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Ra_category_m extends CI_Model{
     private $table = "sl_ra_category";
+    private $table_grade1 = "sl_ra_grade_1";
+    private $table_grade2 = "sl_ra_grade_2";
     
     function __construct(){
         // Call the Model constructor
@@ -16,7 +18,13 @@ class Ra_category_m extends CI_Model{
     }
 
     function get_items(){
-        $sql = "SELECT * FROM {$this->table} ORDER BY rc_num DESC";
+        $sql = "SELECT *,concat(rc_num,'-',rc_name) as rc_num_name FROM {$this->table} ORDER BY rc_num ASC";
+        $result = $this->db->query($sql)->result();
+        return $result;
+    }
+
+    function get_grade_1($rc_idx){
+        $sql = "SELECT * FROM {$this->table_grade1} WHERE rc_idx={$rc_idx} ORDER BY rg_num DESC";
         $result = $this->db->query($sql)->result();
         return $result;
     }

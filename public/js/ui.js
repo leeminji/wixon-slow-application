@@ -9,7 +9,13 @@ var ui = (function(){
             var loading = $("#loading");
             $(window).on("load", function(){
                 loading.addClass("inactive");
-            });           
+            });
+            $(document).on("ajaxStart", function(){
+                loading.removeClass("inactive");
+            });
+            $(document).on("ajaxStop", function(){
+                loading.addClass("inactive");
+            });
         },
         location : function(_this){
             if (_this.value){

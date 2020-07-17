@@ -48,4 +48,28 @@ function replace($url='/') {
 	exit;
 }
 
+function alert_error($errors){
+	$html = '<div id="AlertArea" class="AlertArea">';
+	foreach($errors as $err){
+		$html .= "<div class=\"AlertArea__item AlertArea__danger\" role=\"alert\"><span>{$err}</span></div>";
+	}
+	$html .="</div>";
+	return $html;
+}
+
+function alert_layer($msg, $url=''){
+	$html = "";
+	$html .= "<div class=\"Dialog\">";
+	$html .= "<div class=\"Dialog__msg\">저장되었습니다.</div>";
+	$html .= "</div>";
+	echo $html;
+	echo "
+		<script type='text/javascript'>
+			setTimeout(function(){
+				location.replace('".$url."');
+			},1000);
+		</script>
+	";
+}
+
 /* End of file */

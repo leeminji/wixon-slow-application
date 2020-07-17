@@ -8,9 +8,10 @@
 			<p class="Location__text"><?php echo $description ?></p>
 		</div>
 		<div class="pt20"></div>
+		<?php echo alert_error($errors); ?>
         <div class="Layout__row">
             <div class="Layout__col4">
-				<form action="" class="Form">
+				<?php echo form_open('', array("class"=>'Form')); ?>
 					<div class="Form__group">
 						<div class="Form__label">
 						<label for="">분류선택</label>
@@ -37,16 +38,16 @@
 					</div>
 					<div class="Form__group">
 						<div class="Form__label">
-						<label for="">업무명</label>
+						<label for="ta_task">업무명</label>
 						</div>
 						<div class="Form__data">
-						<input type="text" size="100" />
+						<input type="text" size="100" name="ta_task" id="ta_task" value="<?php echo set_value('ta_task'); ?>" />
 						</div>
 					</div>					
 					<div class="Form__button">
 						<button type="submit" class="Button Button__basic">등록</button>
 					</div>
-				</form>
+				<?php echo form_close() ?>
 			</div>
 			<div class="Layout__col8">
 				<div class="TableStyle__1">
@@ -77,7 +78,7 @@
 							<td><?php echo $lt->ta_idx ?></td>
 							<td><?php echo $lt->ta_default ?></td>
 							<td><?php echo $lt->ta_grade ?></td>
-							<td><?php echo $lt->ty_name ?></td>
+							<td><?php echo $lt->ta_type ?></td>
 							<td><?php echo $lt->ta_task ?></td>
 							<td><a href="<?php echo $link ?>" class="Button Button__basic"><span>추가</span></a></td>
 						</tr>

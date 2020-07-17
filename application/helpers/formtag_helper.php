@@ -1,10 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  
+
+if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 if ( ! function_exists('bt_dropdown_box'))
 {
 	function ft_dropdown_box($name, $options, $items=array(), $size="10"){
 		$html = "<div class=\"SelectBox\" style=\"width:{$size}em\">";
 		$html .= "<select name=\"{$name}\">";
+		$html .= "<option value=''>선택</option>";
 		if ( is_array($options))
 		{
 			foreach($options as $key => $val)
@@ -23,11 +26,11 @@ if ( ! function_exists('bt_dropdown_box'))
 }
 
 if ( ! function_exists('ft_checkbox')){
-	function ft_checkbox($name, $options, $items=array()){
+	function ft_checkbox($name, $array, $items=array()){
 		$html ="";
-		if ( is_array($options))
+		if ( is_array($array))
 		{
-			foreach($options as $key => $val)
+			foreach($array as $key => $val)
 			{
 				if(!$val) continue;
 				$html .="<div class='Checkbox'>";
@@ -46,3 +49,21 @@ if ( ! function_exists('ft_checkbox')){
 		return $html;	
 	}
 }
+
+if ( ! function_exists('ft_set_value')){
+	function ft_set_value($_array=null, $_key, $is_date=false){
+		$result = "";
+		if( $_array != null ){
+			if( array_key_exists($_key, $_array) ){
+				$result = $_array->$_key;
+				if( $is_date ){
+					$result = substr($_array->$_key, 0, 10);
+				}
+			}
+		}else{
+			$result = set_value($_key);
+		}
+		return $result;
+	}
+}
+?>

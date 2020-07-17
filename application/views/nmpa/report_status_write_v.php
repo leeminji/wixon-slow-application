@@ -6,9 +6,14 @@
 		</div>
 		<div class="pt10"></div>
 		<div>
-			업무 : <?php echo $view->ta_task ?>
+			업무 : <?php echo $report_view->ta_task ?>
 		</div>
 		<div class="pt10"></div>
+		<?php 
+			$attr = array('class' => 'form', 'id'=>'frm');
+			echo form_open('', $attr);
+		?>
+		<input type="hidden" name="re_idx" value="<?php echo $this->re_idx; ?>">
 		<div class="TableStyle__1">
 			<table>
 				<colgroup>
@@ -46,13 +51,18 @@
 							<select name="" id="">
 								<option value="">진행</option>
 								<option value="">종료</option>
-							</select>
+						</select>
 						</td>
 					</tr>
 					<tr>
 						<th>2. eRPS</th>
 						<td>
-							<a href="javascript:reportStatus.rps_open(<?php echo $view->ta_idx?>);" class="Button Button__basic">eRPS 문서 선택</a>
+							<input type="hidden" name="nr_idx_array" value="<?php echo ft_set_value($status_view ,'nr_idx_array')?>" />
+							<div class="pt10"></div>
+							<div id="RpsTotalList" class="Layer__content">
+								<div class="Layer__loading"></div>	
+							</div>
+							<div class="pt10"></div>
 						</td>
 						<td>
 							<select name="" id="">
@@ -76,16 +86,29 @@
 		</div>
 		<div class="pt10"></div>
 		<div class="Button__group right">
-			<a href="#" class="Button Button__create"><span>저장</span></a>
+			<button type="submit" class="Button Button__create"><span>저장</span></button>
 			<a href="/nmpa/report/49" class="Button Button__basic"><span>목록</span></a>
 		</div>
+		<?php echo form_close(); ?>
 	</div>
 </main>
-<div id="RpsTotalList" class="Modal"></div>
+
 <script>
+	$(document).ready(function(){
+		reportStatus.taskIdx = <?php echo $report_view->ta_idx?>;
+		reportStatus.init();
+	});
 	var reportStatus = {
 		cateIdx : 1,
 		taskIdx : 1,
+		idxArray : [],
+		init : function(){
+			var idxArrayValue = $("[name='nr_idx_array']").val().trim();
+			if( idxArrayValue != "" ){
+				this.idxArray = idxArrayValue.split(',');
+			}
+			this.rps_open();
+		},
 		rps_open : function(_ta_idx){
 			var that = this;
 			if(_ta_idx){
@@ -99,13 +122,40 @@
 				},
 				type : "GET",
 				success : function(res){
-					$("#RpsTotalList").empty().append(res).addClass("active");
+					uiModal.open('RpsTotalList',res);
+					that.set_rps_list();
+					that.get_rps_list();
 				}
 			});
 		},
 		rps_open_category : function(_nc_idx){
 			this.cateIdx = _nc_idx;
 			this.rps_open();
+		},
+		get_rps_list : function(){
+			var that = this;
+			$("#RpsTotalList input[name='nr_idx[]']").off("change").on("change", function(){
+				if($(this).is(":checked")){
+					that.idxArray.push($(this).val());
+				}else{
+					var index = that.idxArray.indexOf($(this).val());
+					if( index > -1 ){
+						that.idxArray.splice(index, 1);
+					}
+				}
+				$("[name='nr_idx_array']").val(that.idxArray.join(","));
+			});
+		},
+		set_rps_list : function(){
+			var that = this;
+			if( that.idxArray.length > 0 ){
+				$("#RpsTotalList input[name='nr_idx[]']").each(function(){
+					var index = that.idxArray.indexOf($(this).val());
+					if( index > -1 ){
+						$(this).prop("checked", true);
+					}
+				});
+			}
 		}
 	}
 </script>

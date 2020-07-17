@@ -8,12 +8,12 @@
 		<div>
 			<form class="form-inline" action="<?php echo $this->list_href; ?>" method="get" onsubmit="return boardSearch(this)">
 			<select name="sfl" id="sfl" >
-				<option value="mb_id" <?php if($this -> sfl == 'mb_id') echo "selected"; ?>  >아이디</option>
-				<option value="mb_name" <?php if($this -> sfl == 'mb_name') echo "selected"; ?> >이름</option>
+				<option value="mb_id" <?php if($this->sfl == 'mb_id') echo "selected"; ?>  >아이디</option>
+				<option value="mb_name" <?php if($this->sfl == 'mb_name') echo "selected"; ?> >이름</option>
 			</select>
 			<label for="stx" class="skip">검색어입력</label>
-			<input type="text" class="form-control" placeholder="검색어입력" name="stx" id="stx" value="<?php echo $this -> stx;?>">
-			<button type="submit" class="col-xs-12 btn btn-primary">검색</button>
+			<input type="text" placeholder="검색어입력" name="stx" id="stx" value="<?php echo $this -> stx;?>">
+			<button type="submit" class="Button Button__basic">검색</button>
 			</form>
 		</div>
 		<div class="pt10"></div>
@@ -24,20 +24,20 @@
 					총 회원수 <strong><?php echo $count_total_member ?>명</strong>, 
 					탈퇴 <strong><?php echo $count_out_member ?>명</strong>
 				</span>
-				<a class='<?php echo $mb_level == "" ? "Button Button__basic" : "Button Button__basic"; ?> ' href="<?php echo $this->list_href?>"  >전체 (<?php echo $count_total_member ?>명)</a>
-				<a class='Button Button__basic' href="<?php echo $this->list_href?>?stx=0&sfl=mb_state"  >탈퇴회원 (<?php echo $count_out_member ?>명)</a>
-				<?php foreach( $level as $le ){ ?>
-				<a class='<?php echo $mb_level == $le->ml_idx ? "Button Button__basic" : "Button Button__basic"; ?>' href="<?php echo $this->list_href?>?mb_level=<?php echo $le->ml_idx ?>" ><?php echo $le->ml_name ?>(<?php echo $le->cnt ?>명)</a>
-				<?php } ?>				
+				<a class='<?php echo $this->mb_level == "" ? "Button Button__update" : "Button Button__basic"; ?> ' href="<?php echo $this->list_href?>">전체 (<?php echo $count_total_member ?>명)</a>
+
+				<?php foreach( $level_list as $ls ){ ?>
+				<a class='<?php echo $this->mb_level == $ls->ml_idx ? "Button Button__basic" : "Button Button__basic"; ?>' href="<?php echo $this->list_href?>?mb_level=<?php echo $ls->ml_idx ?>"><?php echo $ls->ml_name ?>(<?php echo $ls->ml_count ?>명)</a>
+				<?php } ?>
 			</div>
 			<div class="float_right">
 				<a class="Button <?php echo $this->sst=='mb_regdate' ? "Button__update" : "Button__basic"; ?>"  href="<?php echo $this->list_href?><?=$q?>&sst=mb_regdate&sod=desc">최신순</a>
 				<a class="Button <?php echo $this->sst=='mb_name' ? "Button__update" : "Button__basic"; ?>" href="<?php echo $this->list_href?><?=$q?>&sst=mb_name&sod=desc">이름순</a>
 				<button type="button" id="BtnLevel" class="Button Button__update">회원권한설정</button>
-				<a href="<?php echo $this->write_href; ?>" class="Button Button__basic">등록</a>				
+				<a href="<?php echo $this->write_href; ?>" class="Button Button__basic">등록</a>	
 			</div>
 		</div>
-		<div class="pt10"></div>		
+		<div class="pt10"></div>
 		<!-- board-list -->
 		<div class="TableStyle__1">
 			<table class="">
@@ -47,7 +47,8 @@
 					<col style="width:10em" />
 					<col />
 					<col style="width:10em" />
-					<col style="width:8em" />
+					<col style="width:10em" />
+					<col style="width:10em" />
 				</colgroup>
 				<thead>
 					<tr>
@@ -55,29 +56,31 @@
 					<th scope="col">아이디</th>
 					<th scope="col">이름</th>
 					<th scope="col">이메일</th>
-					<th scope="col">접속일</th>
+					<th scope="col">부서</th>
 					<th scope="col">권한</th>
+					<th scope="col">접속일</th>
 					</tr>
 				</thead>
 				<tbody>
 					<?php foreach($list as $lt){ ?>
 					<tr <?php echo $lt -> mb_state == 0 ? "class='warning'" : "" ?> >
 					<td><?php echo $lt->num; ?></td>
-					<td class="text-left"><a class="link" href="<?php echo $lt -> link; ?>"><?php echo $lt -> mb_id; ?></a></td>
+					<td class="left"><a class="link" href="<?php echo $lt -> link; ?>"><?php echo $lt -> mb_id; ?></a></td>
 					<td><?php echo $lt -> mb_name; ?></td>
-					<td class="text-left"><?php echo $lt -> mb_email; ?></td>
+					<td class="left"><?php echo $lt -> mb_email; ?></td>
+					<td><?php echo $lt->mg_name; ?></td>
+					<td><?php echo $lt->ml_name; ?></td>
 					<td><?php echo date("Y-m-d", strtotime($lt -> mb_regdate)); ?></td>
-					<td><?php echo $this-> level_m -> get_level_name ($lt -> mb_level) ?></td>
 					</tr>
 					<?php } ?>
-					<?php if( count($list) == 0 ) echo "<tr><td colspan='7'>no data</td></tr>"; ?>
+					<?php if( count($list) == 0 ) echo "<tr><td colspan='8' class='empty'>no data</td></tr>"; ?>
 				</tbody>
 			</table>
 		</div>
 		<!-- //board-list -->
 		<!-- pagination -->
 		<nav class="text-center">
-			<ul class="pagination">
+			<ul class="Pagination">
 			<?php echo $pagination; ?>
 			</ul>
 		</nav>
@@ -85,7 +88,7 @@
 	</div>
 </main>
 
-<div class="Modal" id="modal-content" tabindex="-1"></div>
+<div class="Modal size_xs" id="LevelSetting" tabindex="-1"></div>
 <script type="text/javascript">
 	$(document).ready(function(){
 		Member.init();
@@ -97,40 +100,37 @@
 			//회원권한
 			$("#BtnLevel").on("click", function(e){
 				e.preventDefault();
-				thisObj.levelGET();
+				thisObj.get_level();
 			});			
 		},
 		//회원권한
-		levelGET : function(){
-			var thisObj = this;
+		get_level : function(){
+			var that = this;
 			$.ajax ({
 				method : "GET",
 				dataType : "html",
-				url : thisObj.url+"/json_level",
+				url : that.url+"/level",
 				success : function(data){
-					$("#modal-content").empty().append(data);
-					$("#modal-content").addClass('active');
+					uiModal.open("LevelSetting", data);
 
 					//권한이름 수정
 					$("#BtnSubmit").on("click", function(e){
 						e.preventDefault();
-						thisObj.levelPOST();
+						that.post_level();
 					});
 				}
 			});
 		},
-		levelPOST : function(){
-			var thisObj = this;
+		post_level : function(){
+			var that = this;
 			$.ajax({
 				type : "POST",
 				data : $("#frmLevel").serialize(),
-				url : thisObj.url+"/json_level",
+				url : that.url+"/level",
 				dataType : "json"
 			}).done(function(data){
-				$("#modal-content").removeClass('active');
-				alert(data.data);
-				
-				//권한이름 변경때문에 다시 리로드 필요.
+				//alert(data.msg);
+				uiModal.close("LevelSetting");
 				window.location.reload();
 			});
 		}

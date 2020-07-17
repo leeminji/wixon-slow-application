@@ -24,7 +24,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 
 */
-$config['base_url'] = 'http://localhost:8043';
+
+$allowed_domains = array('localhost:8043','zzzpanda.iptime.org:8043');
+$default_domain  = 'localhost:8043';
+if (in_array($_SERVER['HTTP_HOST'], $allowed_domains, TRUE)){
+    $domain = $_SERVER['HTTP_HOST'];
+}else{
+    $domain = $default_domain;
+}
+
+if ( !empty($_SERVER['HTTPS'])){
+    $config['base_url'] = 'https://'.$domain;
+}else{
+    $config['base_url'] = 'http://'.$domain;
+}
+
 
 /*
 |--------------------------------------------------------------------------
@@ -523,3 +537,5 @@ $config['rewrite_short_tags'] = FALSE;
 | Array:		array('10.0.1.200', '192.168.5.0/24')
 */
 $config['proxy_ips'] = '';
+
+$config['access_ips'] = array('218.235.102.2','61.73.54.56','192.168.0.1','::1');

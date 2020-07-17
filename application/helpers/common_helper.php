@@ -136,14 +136,44 @@ function get_month($_month){
     return $monthString[$_month];
 }
 
-function set_value($_array=null, $_key){
-	$result = "";
-	if( $_array != null ){
-		if( array_key_exists($_key, $_array) ){
-			$result = $_array->$_key;
-		}
+//페이지네이션 라이브러리 로딩 추가
+function set_pagenation($config){
+	//base_url, per_page, total_rows
+	$CI =& get_instance();
+	$CI->load->library('pagination');
+	//쿼리스트링으로 변환
+	$config['page_query_string'] = TRUE;
+	$config['num_links'] = 5;
+	$CI->pagination->initialize($config);
+
+	return $CI->pagination->create_links();
+}
+
+function get_list_page($set_per_page){
+	$CI =& get_instance();
+	$get_per_page = $CI->input ->get("per_page", TRUE);
+	if( $get_per_page != null && $get_per_page > 0 ){
+		$page = ($get_per_page/$set_per_page);
+	}else{
+		$page = 0;
 	}
-	return $result;
+	return $page;	
+}
+
+function get_list_num($total_rows, $per_page, $num){
+	return $total_rows - (get_list_page($per_page) * $per_page )-$num;
+}
+
+function get_list_start($set_per_page){
+	$CI =& get_instance();
+	$get_per_page = $CI->input ->get("per_page", TRUE);
+	if( $get_per_page != null && $get_per_page > 0 ){
+		$start = ($get_per_page/$set_per_page)*$set_per_page;
+	}else{
+		$start = 0;
+	}
+
+	return $start;
 }
 
 ?>

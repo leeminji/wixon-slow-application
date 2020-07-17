@@ -22,26 +22,26 @@
 					<div class="Form__label">
 					<label for="re_id">관리번호</label>
 					</div>
-					<div class="Form__data"><?php echo set_value($view, 're_id')?></div>
+					<div class="Form__data"><?php echo ft_set_value($view, 're_id')?></div>
 				</div>			
 				<div class="Form__group">
 					<div class="Form__label">
 					<label for="re_mf">제조사</label>
 					</div>
-					<div class="Form__data"><?php echo set_value($view, 're_mf')?></div>
+					<div class="Form__data"><?php echo ft_set_value($view, 're_mf')?></div>
 				</div>
 				<div class="Form__group">
 					<div class="Form__label">
 					<label for="re_pr_name">제품명</label>
 					</div>
-					<div class="Form__data"><?php echo set_value($view, 're_pr_name')?></div>
+					<div class="Form__data"><?php echo ft_set_value($view, 're_pr_name')?></div>
 				</div>
 				<div class="Form__group">
 					<div class="Form__label">
 					<label for="re_mf">위탁업무</label>
 					</div>
 					<div class="Form__data">
-						<?php echo set_value($view, 'ta_task')?>
+						<?php echo ft_set_value($view, 'ta_task')?>
 					</div>
 				</div>
 				<div class="Form__group">
@@ -49,32 +49,32 @@
 					<label for="re_grade">등급</label>
 					</div>
 					<div class="Form__data">
-						<?php echo set_value($view, 're_grade')?>
+						<?php echo ft_set_value($view, 're_grade')?>
 					</div>
 				</div>
 				<div class="Form__group">
 					<div class="Form__label">
 					<label for="re_mf">품목분류</label>
 					</div>
-					<div class="Form__data"><?php echo set_value($view, 'rc_name')?></div>
+					<div class="Form__data"><?php echo ft_set_value($view, 'rc_name')?></div>
 				</div>			
 				<div class="Form__group">
 					<div class="Form__label">
 					<label for="re_mf">품목명</label>
 					</div>
-					<div class="Form__data"><?php echo set_value($view, 'rg_title')?></div>
+					<div class="Form__data"><?php echo ft_set_value($view, 'rg_title')?></div>
 				</div>
 				<div class="Form__group">
 					<div class="Form__label">
 					<label for="re_mf">위탁일</label>
 					</div>
-					<div class="Form__data"><?php echo set_value($view, 're_contracted_at')?></div>
+					<div class="Form__data"><?php echo ft_set_value($view, 're_contracted_at')?></div>
 				</div>
 				<div class="Form__group">
 					<div class="Form__label">
 					<label for="re_mf">종료일</label>
 					</div>
-					<div class="Form__data"><?php echo set_value($view, 're_ended_at')?></div>
+					<div class="Form__data"><?php echo ft_set_value($view, 're_ended_at')?></div>
 				</div>
 			</form>
 			</div>
@@ -90,6 +90,7 @@
 								<span class="col col3">상세내용</span>
 								<span class="col col4">작성일</span>
 								<span class="col col5">비고</span>
+								<span class="col col6">작성</span>
 							</div>
 						</div>
 					</div>
@@ -109,6 +110,9 @@
 								</span>
 								<span class="col col5">
 									<input type="text" size="100" name="rd_etc" />
+								</span>
+								<span class="col col6">
+									<a href="#" class="Button Button__create">작성</a>
 								</span>
 							</div>
 						</div>
@@ -132,6 +136,9 @@
 								<span class="col col5">
 									<input type="text" value="<?php echo $ls->rd_etc ?>" size="100">
 								</span>
+								<span class="col col6">
+									<a href="#" class="Button Button__basic">수정</a>
+								</span>				
 							</div>
 							<?php } ?>
 						</div>

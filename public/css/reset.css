@@ -54,6 +54,7 @@
 
 	/*form&input base style*/
 	input{height:2em;font-size:1em;line-height:1em;padding:0.5em;border:1px solid #aaa;border-radius: 3px;}
+	input[readonly]{background:#efefef}	
 	.ie8 input{height:1em;padding:.9em 0.5em}
 	input[size="100"]{width:100%}
 	input[size="90"]{width:90%}
@@ -249,7 +250,7 @@
 
 
 /* loading */
-.loading{position:fixed;width:100%;height:100%;z-index:1000;font-size:0.8em}
+.loading{position:fixed;width:100%;height:100%;z-index:1000;font-size:0.8em;background:rgba(255,255,255,0.2)}
 .loading.inactive{opacity:0; z-index:1;-webkit-transition: all .2s ease-in;transition: all .2s ease-in;}
 .loading .img {
     width:6em;
