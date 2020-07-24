@@ -4,85 +4,219 @@
 			<h1 class="Location__title"><?php echo $title; ?></h1>
 			<p class="Location__text"><?php echo $description ?></p>
 		</div>
-		<div class="pt10"></div>
-		<div>
-			업무 : <?php echo $report_view->ta_task ?>
+		<div class="pt20"></div>
+		<!-- 업체정보 -->
+		<div class="TableStyle__1"> 
+			<table>
+				<colgroup>
+					<col style="width:12em">
+					<col>
+					<col style="width:12em">
+					<col>
+				</colgroup>
+				<tbody>
+					<tr>
+						<th>고객명</th>
+						<td class="left"><?php echo $view->mb_name ?></td>
+						<th>구분</th>
+						<td class="left"><?php echo $view->de_name ?></td>
+					</tr>
+					<tr>
+						<th>제품명</th>
+						<td class="left"><?php echo $view->re_pr_name ?></td>
+						<th>등급</th>
+						<td class="left"><?php echo $view->re_grade ?>등급</td>
+					</tr>
+					<tr>
+						<th>중분류</th>
+						<td class="left"><?php echo $view->re_rank_1 ?></td>
+						<th>업무유형</th>
+						<td class="left"><?php echo $view->ty_name ?></td>
+					</tr>
+					<tr>
+						<th>제조사</th>
+						<td class="left"><?php echo $view->re_mf ?></td>
+						<th>관리번호</th>
+						<td class="left"><?php echo $view->re_id?></td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
+		<!-- //업체정보 -->
 		<div class="pt10"></div>
 		<?php 
 			$attr = array('class' => 'form', 'id'=>'frm');
 			echo form_open('', $attr);
 		?>
 		<input type="hidden" name="re_idx" value="<?php echo $this->re_idx; ?>">
-		<div class="TableStyle__1">
-			<table>
-				<colgroup>
-					<col style="width:12em">
-					<col>
-					<col style="width:6em">
-				</colgroup>
-				<thead>
-					<tr>
-						<th>진행</th>
-						<td>분류</td>
-						<td>상황</td>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th>1. 사전준비</th>
-						<td>
-							<div class="StepList">
-							<ul class="StepList__list">
-								<li class="StepList__item active"><a href="">기술요구 작성</a></li>
-								<li class="StepList__item"><a href="">서류번역</a></li>
-								<li class="StepList__item active"><a href="">등록검사</a>
-									<ul class="StepList__list">
-										<li class="StepList__item"><a href="">등록/보완 검사 위탁</a></li>
-										<li class="StepList__item"><a href="">시료 발송</a></li>
-										<li class="StepList__item"><a href="">결재</a></li>
-									</ul>
-								</li>
-								<li class="StepList__item"><a href="">임상시험</a></li>
-							</ul>
-							</div>
-						</td>
-						<td>
-							<select name="" id="">
-								<option value="">진행</option>
-								<option value="">종료</option>
-						</select>
-						</td>
-					</tr>
-					<tr>
-						<th>2. eRPS</th>
-						<td>
-							<input type="hidden" name="nr_idx_array" value="<?php echo ft_set_value($status_view ,'nr_idx_array')?>" />
-							<div class="pt10"></div>
-							<div id="RpsTotalList" class="Layer__content">
-								<div class="Layer__loading"></div>	
-							</div>
-							<div class="pt10"></div>
-						</td>
-						<td>
-							<select name="" id="">
-								<option value="">진행</option>
-								<option value="">종료</option>
-							</select>
-						</td>	
-					</tr>
-					<tr>
-						<th>3. 심사평가 및 승인</th>
-						<td></td>
-						<td>
-							<select name="" id="">
-								<option value="">진행</option>
-								<option value="">종료</option>
-							</select>
-						</td>	
-					</tr>
-				</tbody>
-			</table>
+		<input type="hidden" name="nr_idx_array" value="<?php echo ft_set_value($status_view ,'nr_idx_array')?>" />
+		<input type="hidden" name="step" value="<?php echo $this->step?>" />
+		<div class="pt30"></div>
+		<!-- 단계선택 -->
+		<div class="ReportStep">
+			<div class="ReportStep__title"><span>진행단계</span></div>
+			<div class="ReportStep__list">
+				<div class="ReportStep__item <?php if($this->step==1) echo 'active' ?>">
+					<a href="<?php echo $step_link."&step=1" ?>" class="link"></a>
+					<div class="title">사전준비</div>
+					<div class="check">
+						<span class="Switch__txt">진행</span>
+						<span class="Switch__txt">완료</span>
+					</div>
+				</div>
+				<div class="ReportStep__item <?php if($this->step==2) echo 'active' ?>">
+					<a href="<?php echo $step_link."&step=2" ?>" class="link"></a>
+					<div class="title">eRPS</div>
+					<div class="check">
+						<span class="Switch__txt">진행</span>
+						<span class="Switch__txt">완료</span>
+					</div>
+				</div>
+				<div class="ReportStep__item <?php if($this->step==3) echo 'active' ?>">
+					<a href="<?php echo $step_link."&step=3" ?>" class="link"></a>
+					<div class="title">심사평가 및 승인</div>
+					<div class="check">
+						<span class="Switch__txt">진행</span>
+						<span class="Switch__txt">완료</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="pt10"></div>
+		<div class="RadiusBox RadiusBox__page">
+		<!-- //단계선택 -->
+			<?php if($this->step=="1"){ ?>
+				<div class="Button__group right"><a href="" class="Button__basic Button">보고서다운로드</a></div>
+				<div class="pt10"></div>
+				<div class="TableStyle__1">
+					<table>
+						<colgroup>
+							<col style="width:3em">
+							<col style="width:10em">
+							<col style="width:12em">
+							<col style="width:25em">
+							<col>
+							<col>
+							<col>
+						</colgroup>
+						<thead>
+							<tr>
+								<th>번호</th>
+								<th>세부단계</th>
+								<th>진행상황</th>
+								<th>세부내용</th>
+								<th>작성일</th>
+								<th>고객제출서류</th>
+								<th>관리자서류</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php $i=1;
+							foreach($step_detail as $ls){ ?>
+							<tr>
+								<td><?php echo $i?></td>
+								<td><?php echo $ls ?></td>
+								<td><?php echo ft_dropdown_box("st_status[]", $status_array)?></td>
+								<td><input type="text" value="" name="" size="100"></td>
+								<td><input type="text" value="" name="" class="datepicker"  size="8"></td>
+								<td><span>자료</span></td>
+								<td><span>Y</span> <a href="" class="Button__basic Button">등록</a></td>
+							</tr>
+							<?php $i++; } ?>
+						</tbody>
+					</table>
+				</div>
+			<?php } ?>
+			<?php if($this->step=="2"){ ?>
+				<div class="TableStyle__1">
+					<table>
+						<colgroup>
+							<col style="width:3em">
+							<col style="width:10em">
+							<col style="width:12em">
+							<col style="width:25em">
+							<col>
+							<col>
+							<col>
+						</colgroup>
+						<thead>
+							<tr>
+								<th>번호</th>
+								<th>세부단계</th>
+								<th>진행상황</th>
+								<th>세부내용</th>
+								<th>작성일</th>
+								<th>고객제출서류</th>
+								<th>관리자서류</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php $i=1;
+							foreach($step_detail as $ls){ ?>
+							<tr>
+								<td><?php echo $i?></td>
+								<td><?php echo $ls ?></td>
+								<td><?php echo ft_dropdown_box("st_status[]", $status_array)?></td>
+								<td><input type="text" value="" name="" size="100"></td>
+								<td><input type="text" value="" name="" class="datepicker"  size="8"></td>
+								<td><span>자료</span></td>
+								<td><span>Y</span> <a href="" class="Button__basic Button">등록</a></td>
+							</tr>
+							<?php $i++; } ?>
+						</tbody>
+					</table>
+				</div>			
+				<!-- erps -->
+				<div class="pt20"></div>
+				<!-- 문서선택 -->
+				<div id="RpsTotalList" class="Layer__content">
+					<div class="Layer__loading"></div>	
+				</div>
+				<!-- //문서선택 -->
+				<!-- //erps -->
+			<?php } ?>
+			<?php if($this->step=="3"){ ?>
+				<div class="Button__group right"><a href="" class="Button__basic Button">보고서다운로드</a></div>
+				<div class="pt10"></div>
+				<div class="TableStyle__1">
+					<table>
+						<colgroup>
+							<col style="width:3em">
+							<col style="width:10em">
+							<col style="width:12em">
+							<col style="width:25em">
+							<col>
+							<col>
+							<col>
+						</colgroup>
+						<thead>
+							<tr>
+								<th>번호</th>
+								<th>세부단계</th>
+								<th>진행상황</th>
+								<th>세부내용</th>
+								<th>작성일</th>
+								<th>고객제출서류</th>
+								<th>관리자서류</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php $i=1;
+							foreach($step_detail as $ls){ ?>
+							<tr>
+								<td><?php echo $i?></td>
+								<td><?php echo $ls ?></td>
+								<td><?php echo ft_dropdown_box("st_status[]", $status_array)?></td>
+								<td><input type="text" value="" name="" size="100"></td>
+								<td><input type="text" value="" name="" class="datepicker"  size="8"></td>
+								<td><span>자료</span></td>
+								<td><span>Y</span> <a href="" class="Button__basic Button">등록</a></td>
+							</tr>
+							<?php $i++; } ?>
+						</tbody>
+					</table>
+				</div>
+			<?php } ?>
 		</div>
 		<div class="pt10"></div>
 		<div class="Button__group right">
@@ -95,19 +229,24 @@
 
 <script>
 	$(document).ready(function(){
-		reportStatus.taskIdx = <?php echo $report_view->ta_idx?>;
+		reportStatus.taskIdx = <?php echo $view->ta_idx?>;
 		reportStatus.init();
 	});
 	var reportStatus = {
 		cateIdx : 1,
 		taskIdx : 1,
 		idxArray : [],
+		step : 1,
 		init : function(){
-			var idxArrayValue = $("[name='nr_idx_array']").val().trim();
-			if( idxArrayValue != "" ){
-				this.idxArray = idxArrayValue.split(',');
+			this.step = $("[name='step']").val();
+			//사전준비
+			if( this.step == 2){
+				var idxArrayValue = $("[name='nr_idx_array']").val().trim();
+				if( idxArrayValue != "" ){
+					this.idxArray = idxArrayValue.split(',');
+				}
+				this.rps_open();
 			}
-			this.rps_open();
 		},
 		rps_open : function(_ta_idx){
 			var that = this;

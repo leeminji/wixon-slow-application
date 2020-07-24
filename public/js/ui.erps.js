@@ -4,14 +4,27 @@ var uiErps = (function(){
     return{
         activeIdx : null,
         init : function(){
+            console.log(1);
             this.event_control();
         },
         event_control : function(){
-            // var that = this;
-            // $(".BtnSubList").off("click").on("click", function(e){
-            //     e.preventDefault();
-            //     that.sub_list();
-            // });
+            var that = this;
+            $("#ErpItemList .Draggable__item").each(function(){
+                var item = $(this);
+                item.on('click', '.Button__file_ch', function(e){
+                    e.preventDefault();
+                    console.log("중문자료");
+                    var data = {
+                        'ta_idx' : item.find("[name='ta_idx']").val(),
+                        'nr_idx' : item.find("[name='nr_idx[]']").val()
+                    }
+                    that.uploade_file(data);
+                });
+                item.on('click', '.Button__file_ori', function(e){
+                    e.preventDefault();
+                    console.log("원문자료");
+                });
+            });
         },
         open_sub_list : function(_pidx){
             var that = this;
@@ -35,6 +48,27 @@ var uiErps = (function(){
                 model.addClass('active');
                 model.empty().append(_html);
             }
+        },
+        uploade_file : function(_data){
+            var url = "/nmpa/erps_doc/uploader?";
+            if(_data.ta_idx){
+                url +="ta_idx="+_data.ta_idx;
+            }
+            if(_data.nr_idx){
+                url +="nr_idx="+_data.nr_idx;
+            }
+            var win = window.open(url, "", "width=500,height=300");
+
+            return;
+            var that = this;
+            $.ajax({
+                type : "GET",
+                url : "/nmpa/erps_doc/uploader/",
+                data : _data,
+				success : function(res) {
+                    window.uiModal.open("Uploader", res);
+				}               
+            });            
         }
     }
 })();

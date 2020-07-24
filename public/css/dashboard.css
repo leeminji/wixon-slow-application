@@ -1,10 +1,11 @@
 @import url('reset.css');
 @import url('form.css');
 @import url('contents.css');
+@import url('drive.css');
 
 /* Layout */
 html, body{height:100%;width:100%;}
-.App{height:100%;width:100%;position: relative;z-index: 10;/*min-width: 110em;*/}
+.App{height:100%;width:100%;position: relative;z-index: 10;*min-width: 110em;}
 .App__container{height:100%;width:100%;}
 
 .Container{position: absolute;top:3rem;bottom:0;width:100%}
@@ -73,6 +74,7 @@ html, body{height:100%;width:100%;}
   border-radius: 3px;
 }
 .RadiusBox__baisc{background:#fff;color:#222;border:1px solid #eee}
+.RadiusBox__page{padding:1em 2em;background:#efefef;color:#222;border:1px solid #eee;}
 
 /* AlertArea */
 .AlertArea{}
@@ -241,3 +243,25 @@ html, body{height:100%;width:100%;}
 .Pagination{padding:1em 0;text-align:center}
 .Pagination strong, .Pagination a{display:inline-block;width:2em;line-height:2em;margin:0 2px;border:1px solid #000;color:#000;text-align:center;vertical-align:middle}
 .Pagination strong{background:#efefef}
+
+
+/* DragFileUpload */
+.DragFileUpload__form{}
+.DragFileUpload__title{line-height:3em;background-color:#004E6D}
+.DragFileUpload__title span{color:#fff;font-size: 1.2em;padding-left:1em}
+.DragFileUpload__drag{width:100%;height:5em;background:#efefef;padding:1em;box-sizing: border-box;display: table;}
+.DragFileUpload__drag span{display: table-cell;width: 100%;text-align: center;}
+.DragFileUpload__drag.highlight{background-color:#8eafbc}
+
+
+/* ReportStep */
+.ReportStep{position: relative;}
+.ReportStep__title{position:absolute;left:0;top:0;line-height:5em;color:#fff;background-color: #004E6D;width:12em;text-align:center;border-radius: .3em;}
+.ReportStep__title span{font-size:1.5em}
+.ReportStep__list{padding-left:16em;}
+.ReportStep__item{height:5em;display: inline-block;border-radius: .3em;background-color: #eee;border-radius: .3em;width:16em;position: relative;}
+.ReportStep__item .link{display:block;position: absolute;left:0;top:0;bottom:0;right:0;z-index:1}
+.ReportStep__item .title{font-size:1.2em;padding-top:.5em;font-weight: bold;text-align: center}
+.ReportStep__item .check{padding-top:.8em;text-align: center;}
+.ReportStep__item .check .Switch{position: relative;z-index:10}
+.ReportStep__item.active{background-color:#a0c6d5}

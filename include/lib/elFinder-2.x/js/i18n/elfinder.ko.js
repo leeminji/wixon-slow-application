@@ -121,6 +121,7 @@ if (elFinder && elFinder.prototype && typeof(elFinder.prototype.i18) == 'object'
 			'cmdresize'    : '이미지 사이즈변경',
 			'cmdsort'      : '정렬',
 			'cmdnetmount'  : 'Mount network volume',
+			'cmdcustom'    : '커스텀',
 
 			/*********************************** buttons ***********************************/ 
 			'btnClose'  : '닫기',

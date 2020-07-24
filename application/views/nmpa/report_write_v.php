@@ -59,40 +59,11 @@
 				<div class="Form__label">
 				<label for="ta_idx">위탁업무</label>
 				</div>
-				<div class="Form__data">
+				<div class="Form__data" id="TaskSelect">
 					<?php echo ft_dropdown_box('ta_idx', $task_array, array(ft_set_value($view, 'ta_idx')),30); ?>
 				</div>
 			</div>
-						
-			<div class="Form__group">
-				<div class="Form__label">
-				<label for="re_grade">등급</label>
-				</div>
-				<div class="Form__data">
-					<?php echo ft_dropdown_box('re_grade', $grade_array, array(ft_set_value($view, 're_grade'))); ?>
-				</div>
-			</div>
-
-			<div class="Form__group">
-				<div class="Form__label">
-				<label for="rc_idx">품목분류</label>
-				</div>
-				<div class="Form__data">
-					<?php echo ft_dropdown_box('rc_idx', $ra_array, array(ft_set_value($view, 'rc_idx')), 30); ?>
-					<a href="javascript:;" onclick="report.ra_open();" class="Button Button__basic">품목선택</a>
-				</div>
-			</div>
-
-			<div class="Form__group">
-				<div class="Form__label">
-				<label for="rg_title">품목명</label>
-				</div>
-				<div class="Form__data">
-					<input type="hidden" name="rg_idx" value="<?php echo ft_set_value($view, 'rg_idx')?>">
-					<input type="text" name="rg_title" readonly='readonly' value="<?php echo ft_set_value($view, 'rg_title')?>" size="100" />
-				</div>
-			</div>
-
+			<div id="TaskInfo"></div>
 			<div class="Form__group">
 				<div class="Form__label">
 				<label for="re_contracted_at">위탁일</label>
@@ -115,6 +86,7 @@
 
 			<div class="Button__group right">
 				<a href="<?php echo $this->list_href?>" class="Button Button__basic">목록</a>
+				<a href="javascript:;" class="Button Button__delete" id="btnDelete">삭제</a>
 				<button type="submit" class="Button Button__create">등록</button>
 			</div>
 		<?php echo form_close(); ?>
@@ -122,8 +94,52 @@
 </main>
 <div class="Modal size_sm" id="GradeList"></div>
 <script>
+	$(document).ready(function(){
+		report.init();
+	});	
 	var report = {
+		viCateIdx : null,
+		grade : null,
 		raCateIdx : 5,
+		taskIdx : null,
+		init : function(){
+			this.reportIdx = $("[name='re_idx']").val();
+
+			this.event_control();
+			this.task_info();
+		},
+		event_control : function(){
+			var that = this;
+
+			var taskSelect = $("#TaskSelect select");
+			if( this.reportIdx == null ){
+				//위탁업무 선택시 변경
+				taskSelect.off("change").on("change", function(e){
+					that.taskIdx = $(this).val();
+					that.task_info();
+				});				
+			}else{
+				taskSelect.off('change').attr('readonly','readonly');
+			}
+
+			//삭제
+			$("#btnDelete").off("click").on("click", function(){
+				var form = $("#frm");
+				if( confirm("삭제하시겠습니까?") ){
+					form.attr("action", "/nmpa/report/delete/49");
+					form.submit();
+				}
+			});
+		},
+		event_select : function(){
+			var that = this;
+			//등급선택시 변경
+			$("#GradeSelect select").off("change").on("change", function(e){
+				that.grade = $(this).val();
+				that.task_info();
+			});
+		},
+		//관리번호생성
 		getDocId : function(){
 			$.ajax({
 				url : "/nmpa/report/create_doc_id",
@@ -133,6 +149,7 @@
 				}
 			});			
 		},
+		//의료기기품목분류
 		ra_open : function(){
 			var that = this;
 			that.raCateIdx = $("select[name='rc_idx']").val();
@@ -149,6 +166,7 @@
 				}
 			});
 		},
+		//의료기기품목분류 가져오기
 		get_ra_grade : function(){
 			var that = this;
 			var item = $("#GradeList").find(".InputList__item");
@@ -156,17 +174,70 @@
 				var _item = $(this);
 				$(this).off("click").on("click", ".Button", function(e){
 					e.preventDefault();
+
 					var rg_idx = _item.find('[name="rg_idx[]"]').val();
 					var rg_title = _item.find('[name="rg_title[]"]').val();
 					
-					that.set_ra_grade(rg_idx, rg_title);
+					//의료기기품목분류 적용
+					$("[name='rg_idx']").val(rg_idx);
+					$("[name='re_rank_2']").val(rg_title);
 					uiModal.close('GradeList');
 				});
 			});
 		},
-		set_ra_grade : function(rg_idx, rg_title){
-			$("[name='rg_idx']").val(rg_idx);
-			$("[name='rg_title']").val(rg_title);
+		//체외진단제품목분류
+		vi_open : function(){
+			var that = this;
+			that.viCateIdx = $("select[name='vc_idx']").val();
+			$.ajax({
+				url : "/ref/vi_category/detail_list",
+				data : {
+					"vc_idx" : that.viCateIdx,
+					"rg_grade" : that.grade,
+				},
+				type : "GET",
+				success : function(res){
+					uiModal.open('GradeList',res);
+					that.get_vi_detail();
+				}
+			});
+		},
+		//의료기기품목분류 가져오기
+		get_vi_detail : function(){
+			var that = this;
+			var item = $("#GradeList").find(".InputList__item");
+			item.each(function(index){
+				var _item = $(this);
+				$(this).off("click").on("click", ".Button", function(e){
+					e.preventDefault();
+
+					var idx = _item.find('[name="vd_idx[]"]').val();
+					var title = _item.find('[name="vd_name[]"]').val();
+					
+					//의료기기품목분류 적용
+					$("[name='vd_idx']").val(idx);
+					$("[name='re_rank_2']").val(title);
+
+					uiModal.close('GradeList');
+				});
+			});
+		},
+		//위탁업무 클릭시 의료기기, 체외진단제 구분 및 해당등급 가져오기 
+		task_info : function(){
+			var that = this;
+			$.ajax({
+				url : "/nmpa/report/info",
+				data : {
+					"ta_idx" : that.taskIdx,
+					"re_idx" : $("[name='re_idx']").val(),
+					"re_grade" : that.grade
+				},
+				type : "GET",
+				success : function(data){
+					$("#TaskInfo").empty().append(data);
+					that.event_select();
+				}
+			});			
 		}
 	}
 </script>

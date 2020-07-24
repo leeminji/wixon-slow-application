@@ -1,12 +1,32 @@
 @charset "utf-8";
-@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+/*@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);*/
+
+/* webfont */
+@font-face {
+	font-family: "NotoSansKR";
+	font-style: normal;
+	font-weight: normal;
+	src: local(★), local('NotoSansKR'), local('Noto Sans KR');
+	src: url('../fonts/NotoSansKR-Regular.eot?#iefix') format('embedded-opentype'),
+		 url('../fonts/NotoSansKR-Regular.woff') format('woff'),
+		 url('../fonts/NotoSansKR-Regular.ttf') format('opentype');
+}
+@font-face {
+	font-family: "NotoSansKR";
+	font-style: normal;
+	font-weight: bold;
+	src: local(★), local('NotoSansKR'), local('Noto Sans KR');
+	src: url('../fonts/NotoSansKR-Bold.eot?#iefix') format('embedded-opentype'),
+		 url('../fonts/NotoSansKR-Bold.woff') format('woff'),
+		 url('../fonts/NotoSansKR-Bold.ttf') format('opentype');
+}
 
 /**** reset.css ****/
 	html,body, div,p,h1,h2,h3,h4,h5,h6,input,button,textarea,select,table,ul,ol,li,dl,dt,dd,label,a,strong, object, iframe, abbr, address, cite, code, article, aside, canvas, details, figcaption, figure, section, mark, audio, video{margin:0;padding:0;}
 	p, textarea{word-break: break-all}
 	span, a, input{vertical-align: middle}
 	article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section {display:block;}
-	body, a, input, button, select, p,h1,h2,h3,h4,h5,h6,textarea,select{font-size:16px;font-family: 'Noto Sans KR', sans-serif;line-height:16px;color:#444;font-weight: 400;}
+	body, a, input, button, select, p,h1,h2,h3,h4,h5,h6,textarea,select{font-size:16px;font-family: 'NotoSansKR', sans-serif;line-height:16px;color:#444;font-weight: 400;}
 	table{width:100%;table-layout:fixed;border-collapse: collapse;border-spacing: 0;}
 	table td{text-align: center;}
 	caption, legend {width:0;height:0;font-size:0;line-height:0;overflow:hidden}
@@ -27,7 +47,7 @@
 
 
 	/* font */
-	.font_noto{font-family: 'Noto Sans KR', sans-serif;}
+	.font_noto{font-family: 'NotoSansKR', sans-serif;}
 	
 	/* hidden contents */
 	.skip, .hidden{position:absolute; width:0; height:0; font-size:0; line-height:0; overflow:hidden; visibility:hidden; z-index:-1;}
@@ -251,7 +271,7 @@
 
 /* loading */
 .loading{position:fixed;width:100%;height:100%;z-index:1000;font-size:0.8em;background:rgba(255,255,255,0.2)}
-.loading.inactive{opacity:0; z-index:1;-webkit-transition: all .2s ease-in;transition: all .2s ease-in;}
+.loading.inactive{opacity:0; z-index:-1;-webkit-transition: all .2s ease-in;transition: all .2s ease-in;}
 .loading .img {
     width:6em;
     height:6em;

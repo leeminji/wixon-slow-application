@@ -5860,8 +5860,10 @@ elFinder.prototype._options = {
 	 * @type Function
 	 * @default null (command not active)
 	 */
-	getFileCallback : null,
-	
+	getFileCallback : function( file, fm ){
+		$('.mce-open').parent().children('input[id^="mceu_"]').val(file['url']);
+	},
+
 	/**
 	 * Default directory view. icons/list
 	 *

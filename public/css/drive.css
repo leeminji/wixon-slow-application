@@ -1,0 +1,25 @@
+/*
+    ms drive css
+*/
+
+.Drive{}
+.Drive__top{position: relative;padding-left:5em;background-color:teal}
+.Drive__back{position: absolute;left:0;top:0;}
+.Drive__title{line-height:4em;}
+.Drive__title .title{color:#fff;font-size:1.6em;}
+.Drive__bottom{padding:1em;border-top:1px solid #eee}
+.Drive__list{list-style:none;width:100%;padding:1em;box-sizing: border-box;}
+.Drive__list:after{content:'';display:block;clear:both}
+.Drive__item{float:left;width:25%;position: relative;}
+.Drive__item .link{text-align:center;display:block;padding:1em 0}
+.Drive__item .icon{width:4em;height:4em;display:inline-block;background-position:center;background-size:auto 4em;background-repeat:no-repeat;}
+.Drive__item .name{display:block;padding-top:.5em;line-height:1.2em;text-align:center;}
+.Drive__item .radio{position: absolute;left:1em;top:1em;}
+
+.icon_folder{background-image:url('/public/images/icons/icon_folder.png')}
+.icon_pdf{background-image:url('/public/images/icons/icon_pdf.png')}
+.icon_excel{background-image:url('/public/images/icons/icon_excel.png')}
+.icon_doc{background-image:url('/public/images/icons/icon_doc.png')}
+.icon_word{background-image:url('/public/images/icons/icon_word.png')}
+.icon_ppt{background-image:url('/public/images/icons/icon_ppt.png')}
+.icon_image{background-image:url('/public/images/icons/icon_image.png')}

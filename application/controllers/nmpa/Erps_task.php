@@ -67,6 +67,23 @@ class Erps_task extends SL_Controller {
 		
 		$this->_view("/nmpa/erps_task_v", $data);
 	}
+
+	public function ajax_delete(){
+		$ta_idx = $this->input->post("ta_idx");
+
+		$result = $this->nmpa_task_m->delete_item($ta_idx);
+		if( $result ){
+			$json_data = array(
+				"msg" => "success",
+				"result"=> $result
+			);
+		}else{
+			$json_data = array(
+				"msg" => "fail"
+			);		
+		}
+		$this->_json_view($json_data);
+	}
 }
 
 /* End of file Erps_task.php */

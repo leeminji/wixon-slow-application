@@ -22,6 +22,7 @@ class Report extends SL_Controller {
 		$this->load->model("nmpa/nmpa_report_m");
 		$this->load->model("nmpa/nmpa_task_m");
 		$this->load->model("ref/ra_category_m");
+		$this->load->model("ref/vi_category_m");
 		$this->load->model("auth/member_m");
 
 		$this-> sfl = $this->input->get("sfl", FALSE);
@@ -72,6 +73,17 @@ class Report extends SL_Controller {
 				$data['list'][$i]->re_pr_name = str_replace( $this -> stx, "<mark>".$this -> stx."</mark>", $item->re_pr_name );
 			}
 			$data['list'][$i]->link = "/nmpa/report/write/{$this->midx}?re_idx={$item->re_idx}";
+
+			//품목유형
+			if($item->ta_default == 'TND01'){
+				$ra = $this->ra_category_m->get_item($item->rc_idx);
+				$data['list'][$i]->re_rank_1 = $ra->rc_name;
+			}
+			//체외진단제
+			if($item->ta_default == 'TND02'){
+				$vi = $this->vi_category_m->get_item($item->vc_idx);
+				$data['list'][$i]->re_rank_1 = $vi->vc_name;
+			}
 		}
 
 		$data['description'] = "진행상황";
@@ -80,6 +92,15 @@ class Report extends SL_Controller {
 		$this->_view("/nmpa/report_list_v", $data);
 	}
 
+	public function delete(){
+		if($_POST){
+			$re_idx = $this -> input -> post('re_idx', TRUE);
+			$result = $this->nmpa_report_m->delete_item($re_idx);
+			if($result){
+				alert("삭제하였습니다", $this->list_href);
+			}
+		}
+	}
 	
 	//수정 & 작성
 	public function write(){
@@ -95,13 +116,15 @@ class Report extends SL_Controller {
 			if( $this->state == 'write'){
 				$this->form_validation -> set_rules('re_id', '관리번호_앞자리', 'required');
 				$this->form_validation -> set_rules('re_id_add', '관리번호_뒷자리', 'required');
+				$this->form_validation -> set_rules('ta_idx', '위탁업무', 'required|numeric');
 			}
 			$this->form_validation -> set_rules('mb_idx', '업체선택', 'required|numeric');
 			$this->form_validation -> set_rules('re_mf', '제조사', 'required');
 			$this->form_validation -> set_rules('re_pr_name', '제품명', 'required');
-			$this->form_validation -> set_rules('ta_idx', '위탁업무', 'required|numeric');
-			$this->form_validation -> set_rules('rc_idx', '품목분류', 'required|numeric');
-			$this->form_validation -> set_rules('rg_idx', '품목명', 'required|numeric');
+			$this->form_validation -> set_rules('rc_idx', '의료기기 품목분류', 'numeric');
+			$this->form_validation -> set_rules('rg_idx', '의료기기 품목명', 'numeric');
+			$this->form_validation -> set_rules('vc_idx', '체외진단제 품목분류', 'numeric');
+			$this->form_validation -> set_rules('vd_idx', '체외진단제 품목명', 'numeric');
 			$this->form_validation -> set_rules('re_grade', '등급', 'required|numeric');
 			$this->form_validation -> set_rules('re_contracted_at', '위탁일', 'required');
 			$this->form_validation -> set_rules('re_ended_at', '종료일', 'required');
@@ -109,15 +132,17 @@ class Report extends SL_Controller {
 				$db_data = array(
 					're_mf' => $this -> input -> post('re_mf', TRUE),
 					're_pr_name' => $this -> input -> post('re_pr_name', TRUE),
-					'ta_idx' => $this -> input -> post('ta_idx', TRUE),
 					'rc_idx' => $this -> input -> post('rc_idx', TRUE),
 					'rg_idx' => $this -> input -> post('rg_idx', TRUE),
+					'vc_idx' => $this -> input -> post('vc_idx', TRUE),
+					'vd_idx' => $this -> input -> post('vd_idx', TRUE),
 					're_grade' => $this -> input -> post('re_grade', TRUE),
 					're_contracted_at' => $this -> input -> post('re_contracted_at', TRUE),
 					're_ended_at' => $this -> input -> post('re_ended_at', TRUE),
 				);
 				$result = false;
 				if( $this->state == 'write'){
+					$db_data['ta_idx'] = $this -> input -> post('ta_idx', TRUE);
 					$db_data['mb_idx'] = $this -> input -> post('mb_idx', TRUE);
 					$db_data['re_id'] = $this -> input -> post('re_id', TRUE)."-".$this -> input -> post('re_id_add', TRUE);
 					
@@ -152,7 +177,11 @@ class Report extends SL_Controller {
 		$task_array = make_array($task_list, 'ta_idx', 'ta_task');
 		$ra_list = $this->ra_category_m->get_items();
 		$ra_array = make_array($ra_list, 'rc_idx', 'rc_num_name');
-
+		
+		//체외진단제	
+		$vi_list = $this->vi_category_m->get_items_by_grade(1);
+		$vi_array = make_array($vi_list, 'vc_idx', 'vc_num_name');
+	
 		$data = array(
 			"errors" => $errors,
 			"view" => null,
@@ -160,10 +189,12 @@ class Report extends SL_Controller {
 			"grade_array" => $grade_array,
 			"task_array"  => $task_array,
 			"ra_array"    => $ra_array,
+			"vi_array"    => $vi_array,
 			"member_array" => $member_array
 		);
 		if($this->state == 'update'){
-			$data['view'] = $this->nmpa_report_m->get_item($re_idx);
+			$view = $this->nmpa_report_m->get_item($re_idx);			
+			$data['view'] = $view;
 		}
 		$this->_view("/nmpa/report_write_v", $data);
 	}
@@ -188,6 +219,9 @@ class Report extends SL_Controller {
 
 	//진행상황
 	public function status(){
+		$this->step = $this->input->get("step") == null ? "1" : $this->input->get("step");
+		$this->re_idx = $this->input->get('re_idx');
+
 		if($_POST){ 
 			$re_idx = $this->input->post('re_idx');
 			$data = array(
@@ -198,28 +232,39 @@ class Report extends SL_Controller {
 			alert("저장하였습니다.", current_url()."?re_idx={$re_idx}");
 			exit;
 		}
-
-		$this->re_idx = $this->input->get('re_idx');
-		$report_view = $this->nmpa_report_m->get_item($this->re_idx);
+	
+		$view = $this->nmpa_report_m->get_item($this->re_idx);
 		$status_view = $this->nmpa_report_m->get_status_item($this->re_idx);
-
-		$report_detail_list = $this->nmpa_report_m->get_detail($this->re_idx);
-		$step_list = $this->nmpa_report_m->get_step_items();
-		$step_array = make_array($step_list, "rs_idx", "rs_name");
+		if($this->step == 1){
+			$step_detail = array("등급분류", "기술요구작성", "서류번역", "등록검사위탁", "보완검사위탁", "시료발송", "결제");
+		}
+		if($this->step == 2){
+			$step_detail = array("제조사 서류", "대리점 서류", "공증문서", "번역본");
+		}		
+		if($this->step == 3){
+			$step_detail = array("파일 심사 접수", "결재 및 접수", "보완통지", "자문1", "자문2", "자문3", "승인서수령");
+		}
 		$data = array(
-			"report_view"=>$report_view,
-			"status_view"=>$status_view,
-			"step_array" => $step_array,
-			"title"=>$report_view->re_pr_name." 진행상황",
+			"view"        => $view,
+			"title"       => $view->re_pr_name." 진행상황",
 			"description" => "진행상황",
-			"report_detail_list" => $report_detail_list
+			"status_view" => $status_view,
+ 			"status_array" => array(
+				 "0" => "완료",
+				 "1" => "진행중",
+				 "2" => "대기중",
+				 "3" => "N/A"
+			 ),
+			 "step_link" => "/nmpa/report/status/{$this->midx}?re_idx={$this->re_idx}",
+			 "step_detail" => $step_detail
 		);
+		
 		$this->_view("/nmpa/report_status_write_v", $data);
 		
 	}
 
 	/* 관리번호만들기 */
-	function create_doc_id(){
+	public function create_doc_id(){
 		$date = Date('ymd');
 
 		$json_data = array(
@@ -229,6 +274,63 @@ class Report extends SL_Controller {
 		$this->_json_view($json_data);
 	}
 
+	//업무에 따른 정보 가져오기.
+	public function info(){
+		$ta_idx = $this->input->get("ta_idx");
+		$re_idx = $this->input->get("re_idx");
+		$view = (object)[];
+		if( $re_idx != null && $re_idx != ""){
+			$view = $this->nmpa_report_m->get_item($re_idx);
+			$ta_idx = $view->ta_idx;
+			//품목유형
+			if($view->ta_default == 'TND01'){
+				$ra_g= $this->ra_category_m->get_grade_item($view->rg_idx);
+				$view->re_rank_2 = $ra_g->rg_title;
+			}
+			//체외진단제
+			if($view->ta_default == 'TND02'){
+				$vi_detail= $this->vi_category_m->get_detail_item($view->vd_idx);
+				$view->re_rank_2 = $vi_detail->vd_name;
+			}		
+		}
+		$task = $this->nmpa_task_m->get_item($ta_idx);
+
+		if($ta_idx == null){
+			$task_list = $this->nmpa_task_m->get_all_items();
+			$ta_idx = $task_list[0]->ta_idx;
+		}else{
+			$ta_idx = $this->input->get("ta_idx");
+		}
+		
+		//등급
+		$grade_list = explode(",", $task->ta_grade);
+			
+		//체외진단제
+		$vi_array = null;
+		if( $task->ta_default == "TND02" ){
+			$re_grade = $this->input->get("re_grade") == null ? $grade_list[1] : $this->input->get("re_grade");
+			$view->re_grade = $re_grade;
+			$vi_list = $this->vi_category_m->get_items_by_grade($re_grade);
+			$vi_array = make_array($vi_list, 'vc_idx', 'vc_num_name');
+		}
+
+		//의료기기
+		$ra_array = null;
+		if( $task->ta_default =="TND01" ){
+			$ra_list = $this->ra_category_m->get_items();
+			$ra_array = make_array($ra_list, 'rc_idx', 'rc_num_name');			
+		}
+
+		$data = array(
+			"task"        => $task,
+			"grade_list"  => $grade_list,
+			"ra_array"    => $ra_array,
+			"vi_array"    => $vi_array,
+			"view"        => $view
+		);
+
+		$this->_layer_view("/nmpa/report_info_v", $data);
+	}
 }
 
 /* End of file Report.php */

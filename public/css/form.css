@@ -54,3 +54,49 @@
 .InputList__data{line-height: 2em;height:2em;border:1px solid #666;border-radius: 0 3px 3px 0;text-indent: .5em;vertical-align: middle;}
 .InputList__data > input{width:90%;height:2em;border:0;vertical-align: baseline;background-color: transparent;}
 .InputList__button{position: absolute;right:0;width:6em;text-align: right;line-height:2em;top:0}
+
+
+/* The Switch - the box around the slider */
+.Switch{font-size:0.9em}
+.Switch__label {position: relative;display: inline-block;width: 5em;height: 2.4em;vertical-align: middle;}
+/* Hide default HTML checkbox */
+.Switch__label input {opacity: 0;width: 0;height: 0;}
+  
+/* The slider */
+.Switch__txt{line-height:2.4em;display: inline-block;font-weight: bold;}
+.Switch__txt.red{color:red}
+.Switch__slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: dodgerblue;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.Switch__slider:before {
+    position: absolute;
+    content: "";
+    height: 1.8em;
+    width: 1.8em;
+    left: .3em;
+    bottom: .3em;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.Switch__label input:checked + .Switch__slider { background-color: #ccc;}
+.Switch__label input:focus + .Switch__slider {box-shadow: 0 0 1px #ccc;}
+.Switch__label input:checked + .Switch__slider:before {
+    -webkit-transform: translateX(2.5em);
+    -ms-transform: translateX(2.5em);
+    transform: translateX(2.5em);
+}
+
+/* Rounded sliders */
+.Switch__slider.round {border-radius: 2em;}
+.Switch__slider.round:before {border-radius: 50%;}

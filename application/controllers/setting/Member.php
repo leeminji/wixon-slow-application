@@ -51,6 +51,7 @@ class Member extends SL_Controller {
 		
 		$this->list_href = "/setting/member/lists/{$this->midx}";
 		$this->write_href = "/setting/member/write/{$this->midx}";
+		$this->delete_href = "/setting/member/delete/{$this->midx}";
 	}
 	
 	/* 회원 아이디 중복 체크 */
@@ -209,11 +210,11 @@ class Member extends SL_Controller {
 	/* 회원 삭제 */
 	public function delete(){
 		if( $_POST ){
-			$mb_idx = $this -> input -> post( 'mb_idx', TRUE );
+			$mb_idx = $this -> input -> post('mb_idx', TRUE);
 			$mb_id = $this -> input -> post('mb_id', TRUE);
 			
 			//회원정보삭제
-			$this -> member_m -> member_delete($mb_idx);
+			$this -> member_m -> member_delete(array($mb_idx));
 			
 			//회원권한삭제
 			$this -> authset_m -> auth_delete($mb_id);

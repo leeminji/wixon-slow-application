@@ -23,11 +23,24 @@ class Ra_category_m extends CI_Model{
         return $result;
     }
 
+    function get_item($rc_idx){
+        $sql = "SELECT * FROM {$this->table} WHERE rc_idx={$rc_idx}";
+        $result = $this->db->query($sql)->row();
+        return $result;
+    }
+
+
     function get_grade_1($rc_idx){
         $sql = "SELECT * FROM {$this->table_grade1} WHERE rc_idx={$rc_idx} ORDER BY rg_num DESC";
         $result = $this->db->query($sql)->result();
         return $result;
     }
+
+    function get_grade_item($rg_idx){
+        $sql = "SELECT * FROM {$this->table_grade1} WHERE rg_idx={$rg_idx}";
+        $result = $this->db->query($sql)->row();
+        return $result;
+    } 
 }
 
 /* End of file Ra_category_m.php */

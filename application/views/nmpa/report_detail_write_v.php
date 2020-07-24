@@ -5,81 +5,49 @@
 			<p class="Location__text"><?php echo $description ?></p>
 		</div>
 		<div class="pt20"></div>
-		<div class="Button__group right">
-			<a href="" class="Button Button__basic"><span>보고서 다운로드(execel)</span></a>
-		</div>
-		<div class="pt10"></div>
         <div class="Layout__row">
-            <div class="Layout__col3">		
-			<form action="" class="Form">
-				<div class="Form__group">
-					<div class="Form__label">
-					<label for="re_id">고객</label>
-					</div>
-					<div class="Form__data">(주)휴비츠</div>
-				</div>			
-				<div class="Form__group">
-					<div class="Form__label">
-					<label for="re_id">관리번호</label>
-					</div>
-					<div class="Form__data"><?php echo ft_set_value($view, 're_id')?></div>
-				</div>			
-				<div class="Form__group">
-					<div class="Form__label">
-					<label for="re_mf">제조사</label>
-					</div>
-					<div class="Form__data"><?php echo ft_set_value($view, 're_mf')?></div>
-				</div>
-				<div class="Form__group">
-					<div class="Form__label">
-					<label for="re_pr_name">제품명</label>
-					</div>
-					<div class="Form__data"><?php echo ft_set_value($view, 're_pr_name')?></div>
-				</div>
-				<div class="Form__group">
-					<div class="Form__label">
-					<label for="re_mf">위탁업무</label>
-					</div>
-					<div class="Form__data">
-						<?php echo ft_set_value($view, 'ta_task')?>
-					</div>
-				</div>
-				<div class="Form__group">
-					<div class="Form__label">
-					<label for="re_grade">등급</label>
-					</div>
-					<div class="Form__data">
-						<?php echo ft_set_value($view, 're_grade')?>
-					</div>
-				</div>
-				<div class="Form__group">
-					<div class="Form__label">
-					<label for="re_mf">품목분류</label>
-					</div>
-					<div class="Form__data"><?php echo ft_set_value($view, 'rc_name')?></div>
-				</div>			
-				<div class="Form__group">
-					<div class="Form__label">
-					<label for="re_mf">품목명</label>
-					</div>
-					<div class="Form__data"><?php echo ft_set_value($view, 'rg_title')?></div>
-				</div>
-				<div class="Form__group">
-					<div class="Form__label">
-					<label for="re_mf">위탁일</label>
-					</div>
-					<div class="Form__data"><?php echo ft_set_value($view, 're_contracted_at')?></div>
-				</div>
-				<div class="Form__group">
-					<div class="Form__label">
-					<label for="re_mf">종료일</label>
-					</div>
-					<div class="Form__data"><?php echo ft_set_value($view, 're_ended_at')?></div>
-				</div>
-			</form>
+			<div class="TableStyle__1">
+				<table>
+					<colgroup>
+						<col style="width:12em">
+						<col>
+						<col style="width:12em">
+						<col>
+					</colgroup>
+					<tbody>
+						<tr>
+							<th>고객명</th>
+							<td class="left"><?php echo $view->mb_name ?></td>
+							<th>구분</th>
+							<td class="left"><?php echo $view->de_name ?></td>
+						</tr>
+						<tr>
+							<th>제품명</th>
+							<td class="left"><?php echo $view->re_pr_name ?></td>
+							<th>등급</th>
+							<td class="left"><?php echo $view->re_grade ?>등급</td>
+						</tr>
+						<tr>
+							<th>중분류</th>
+							<td class="left"><?php echo $view->re_rank_1 ?></td>
+							<th>업무유형</th>
+							<td class="left"><?php echo $view->ty_name ?></td>
+						</tr>
+						<tr>
+							<th>제조사</th>
+							<td class="left"><?php echo $view->re_mf ?></td>
+							<th>관리번호</th>
+							<td class="left"><?php echo $view->re_id?></td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
-			<div class="Layout__col9">
-				<form action="" class="Form">
+			<div class="pt30"></div>
+			<div class="Button__group right">
+				<a href="" class="Button Button__basic"><span>보고서 다운로드(execel)</span></a>
+			</div>
+			<div class="pt10"></div>
+			<form action="" class="Form">
 				<!-- Draggable -->
 				<div class="Draggable" id="tbl_report_detail">
 					<div class="Draggable__title">
@@ -148,9 +116,9 @@
 					</div> -->
 				</div>
 				<!-- //Draggable -->
-				</form>
-			</div>
+			</form>
 		</div>
+		<div class="pt30"></div>
 		<div class="Button__group right">
 			<a href="/nmpa/report/49" class="Button Button__basic"><span>목록</span></a>
 		</div>

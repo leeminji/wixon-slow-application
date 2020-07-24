@@ -8,12 +8,6 @@ class SL_Controller extends CI_Controller {
     function __construct(){
         parent::__construct();
         
-        $member = array(
-            'mb_id'=> 'admin',
-            'mb_level' => 10,
-            'mb_group' => 'G01'
-        );
-
         $this->load->helper(array("alert","common", "menu", "token", "formtag", "form"));
         $this->load->model('setting/menu_m');
         $this->load->model('auth/member_m');
@@ -22,7 +16,7 @@ class SL_Controller extends CI_Controller {
 
 		//현재화면 메뉴 고유번호
 		$last_segment = $this->uri->total_segments();        
-        $this->midx = ( is_numeric($this->uri->segment($last_segment))) ? $this->uri->segment($last_segment) : 1;
+        $this->midx = ( is_numeric($this->uri->segment($last_segment))) ? $this->uri->segment($last_segment) : null;
         
         //로그인 멤버정보
         if($this->session->userdata('logged_in')){ 
@@ -37,6 +31,19 @@ class SL_Controller extends CI_Controller {
         }
     }
 
+    //window 뷰
+    function _win_view($page, $option=[]){
+        // 로그인 체크
+		$return_url = uri_string();
+        $this->_require_login($return_url);
+
+        $option = array(
+            "page" => $page,
+            "option" => $option
+        );
+        $this->load->view("layout/layout_win_v", $option);
+    }
+    
     //로그인차단
     function _require_login($return_url)
 	{
@@ -96,6 +103,22 @@ class SL_Controller extends CI_Controller {
         $this->output->set_output(json_encode($result));       
     }
 
+    //권한체크
+    function _require_auth(){
+        //var_dump($this->user_info);
+        $member = $this->user_info;
+        $menu_info = $this->menu_m->get_item($this->midx);
+        $is_super = $member->mb_level == "M01" && $member->mb_group == "G01";
+        $is_level = $menu_info->mm_level == null ? true : in_array($member->mb_level, explode(",", $menu_info->mm_level));
+        $is_group = $menu_info->mm_group == null ? true : in_array($member->mb_group, explode(",", $menu_info->mm_group));
+        
+        if( ($is_group == true && $is_level == true) || $is_super ){
+            return;
+        }else{
+            alert_back("접근권한이 없습니다.");
+        }
+    }
+
     //기본뷰
     function _view($page, $option=[]){
 
@@ -103,6 +126,15 @@ class SL_Controller extends CI_Controller {
 		$return_url = uri_string();
         $this->_require_login($return_url);
         
+        //권한체크
+        $this->_require_auth();
+
+        if( $this->midx == null ){
+            redirect("/dashboard/9");
+        }
+        
+        $menu_info = $this->menu_m->get_item($this->midx);
+
         $this->menu_type =$this->menu_m->get_all_types();
 
         //메뉴설정
@@ -111,7 +143,7 @@ class SL_Controller extends CI_Controller {
         $this->account_menu = get_to_menu($this->menu_m->get_all_items(3), $this->midx); //account
         $this->setting_menu = get_to_menu($this->menu_m->get_all_items(4), $this->midx); //account 
         
-        $menu_info = $this->menu_m->get_item($this->midx);
+        
         $option = array(
             "header"=> "include/header_v",
             "footer"=> "include/footer_v",

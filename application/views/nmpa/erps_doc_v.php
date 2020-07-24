@@ -63,11 +63,13 @@
 								</div>
 							</span>
 							<span class="col col3">
-								<?php echo ft_dropdown_box("nr_doc_ch",$doc_array, array(), 4); ?>
+								<?php echo ft_dropdown_box("nr_doc_ch",$doc_array, array(), 5); ?>
+								<span>N</span>
 								<button class="Button Button__basic"><span>등록</span></button>
 							</span>
 							<span class="col col4">
-								<?php echo ft_dropdown_box("nr_doc_ori",$doc_array, array(), 4); ?>
+								<?php echo ft_dropdown_box("nr_doc_ori",$doc_array, array(), 5); ?>
+								<span>N</span>
 								<button class="Button Button__basic"><span>등록</span></button>
 							</span>
 							<span class="col col6">
@@ -78,10 +80,11 @@
 				</div>
 				<!-- //등록 -->
 				<div class="Draggable__body">
-					<div class="Draggable__list">
+					<div class="Draggable__list" id="ErpItemList">
 						<?php foreach($rps_list as $ls){ ?>
 						<div class="Draggable__item">
-							<input type="hidden" name="nr_idx[]" value="<?php echo $ls->nr_idx ?>">
+							<input type="hidden" name="ta_idx" value="<?php echo $ls->ta_idx?>" />
+							<input type="hidden" name="nr_idx[]" value="<?php echo $ls->nr_idx ?>" />
 							<span class="col col1"><?php echo $ls->nc_title ?>.<?php echo $ls->nr_num ?></span>
 							<span class="col col2">
 								<div class="TextAreaInput">
@@ -92,12 +95,14 @@
 								<textarea size="100" name="nr_doc[]"><?php echo $ls->nr_doc?></textarea></div>
 							</span>
 							<span class="col col3">
-								<?php echo ft_dropdown_box("nr_doc_ch",$doc_array, array($ls->nr_doc_ch), 4); ?>
-								<a href="/sns/ms_auth/signin" class="Button Button__basic"><span>자료</span></a>
+								<?php echo ft_dropdown_box("nr_doc_ch",$doc_array, array($ls->nr_doc_ch), 5); ?>
+								<span>N</span>
+								<a href="javascript:;" class="Button Button__basic Button__file_ch"><span>등록</span></a>
 							</span>
 							<span class="col col4">
-								<?php echo ft_dropdown_box("nr_doc_ori",$doc_array, array($ls->nr_doc_ori), 4); ?>
-								<a href="javascript:uiModal.show('Uploader', '/uploader/tester', tester);" class="Button Button__basic"><span>자료</span></a>
+								<?php echo ft_dropdown_box("nr_doc_ori",$doc_array, array($ls->nr_doc_ori), 5); ?>
+								<span>N</span>
+								<a href="javascript:;" class="Button Button__basic Button__file_ori"><span>등록</span></a>
 							</span>
 							<span class="col col6">
 								<a href="javascript:;" class="Button Button__basic" onclick="uiErps.open_sub_list(<?php echo $ls->nr_idx?>)"><span>하위목록</span></a>
@@ -125,7 +130,7 @@
 
 <!-- Modal -->
 <div id="RpsSubList" class="Modal"></div>
-<div id="Uploader" class="Modal"></div>
+<div id="Uploader" class="Modal size_sm"></div>
 <!-- //Modal -->
 
 <script src="/public/js/ui.erps.js"></script>

@@ -22,7 +22,7 @@ class Erps_doc extends SL_Controller {
 		$task_list = $this->nmpa_task_m->get_all_items();
 		
 		//업부 idx값
-		$this->ta_idx = $this->input->get("ta_idx") == null ? 1 :  $this->input->get("ta_idx");
+		$this->ta_idx = $this->input->get("ta_idx") == null ? $task_list[0]->ta_idx :  $this->input->get("ta_idx");
 
 		//rps 목록
 		$rps_list = array();
@@ -127,6 +127,89 @@ class Erps_doc extends SL_Controller {
 		
 		$this->_modal_view("/nmpa/erps_rps_list_v", $data);
 	}
+
+	public function uploader(){
+		$nr_idx = $this->input->get("nr_idx");
+		$ta_idx = $this->input->get("ta_idx");
+		$data = array(
+			"title" => "업로드",
+			"nr_idx" => $nr_idx,
+			"ta_idx" => $ta_idx
+		);
+		$this->_win_view('uploader/tester_v', $data);
+	}
+
+	public function do_upload(){
+		$this->load->library('upload');
+		$json_data = null;
+		$config = array(
+			'upload_path' => './uploads/',
+			'allowed_types' => 'pdf|jpg|gif|png|jpeg|txt|exe|zip',
+			'max_size' => 1024*10, //1MB 1024
+		);
+
+		$files = $_FILES;
+		$file_count = count($_FILES['userfile']['name']);
+
+		for($i=0;$i<$file_count;$i++){
+			$_FILES['userfile'] = array(
+				'name'=>$files['userfile']['name'][$i],
+				'type'=>$files['userfile']['type'][$i],
+				'tmp_name'=>$files['userfile']['tmp_name'][$i],
+				'error'=>$files['userfile']['error'][$i],
+				'size'=>$files['userfile']['size'][$i],
+			);
+
+			$this->upload->initialize($config);
+
+			if ( !$this->upload->do_upload() ){
+				$error = array('error' => $this->upload->display_errors());
+				var_dump($error);
+			} else {
+				$data = array('upload_data' => $this->upload->data());
+				var_dump($data);
+			}
+		}
+		alert_close("업로드하였습니다.");
+	}
+
+	public function ajax_upload(){
+		$this->load->library('upload');
+		$json_data = null;
+		$config = array(
+			'upload_path' => './uploads/',
+			'allowed_types' => 'pdf|jpg|gif|png|jpeg|txt|exe|zip|pptx|csv|xlsx',
+			'max_size' => 1024*10,
+		);
+
+		$files = $_FILES;
+	
+		$_FILES['userfile'] = array(
+			'name'=>$files['userfile']['name'],
+			'type'=>$files['userfile']['type'],
+			'tmp_name'=>$files['userfile']['tmp_name'],
+			'error'=>$files['userfile']['error'],
+			'size'=>$files['userfile']['size'],
+		);
+
+		$this->upload->initialize($config);
+
+		if ( !$this->upload->do_upload() ){
+			$error = array('error' => $this->upload->display_errors());
+			$json_data = array(
+				"error" => $error,
+				"msg"=>'fail',
+				"files"=>$files
+			);
+		} else {
+			$data = array('upload_data' => $this->upload->data());
+			$json_data = array(
+				"data" => $data,
+				"msg"=>'success',
+			);
+		}
+		$this->_json_view($json_data);
+	}	
 
 	public function chapter(){
 		if($_POST){

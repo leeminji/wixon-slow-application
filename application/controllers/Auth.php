@@ -76,7 +76,7 @@ class Auth extends SL_Controller {
     				$this -> login_log_m -> login_log_insert($logdata);
 					
 					if( $auth_data['return_url'] && (trim($auth_data['return_url']) != "")){
-						alert($msg."(is_return).{$auth_data['return_url']}", $auth_data['return_url']);
+						alert($msg."(is_return).{$auth_data['return_url']}", "/".$auth_data['return_url']);
 					}else{
 						alert($msg, "/dashboard/9");
 					}

@@ -12,7 +12,14 @@ class Nmpa_task_m extends CI_Model{
         // Call the Model constructor
         parent::__construct();
     }
+
+    function delete_item($ta_idx){
+        $where = array("ta_idx"=>$ta_idx);  
+        $result = $this->db->delete($this->table, $where);
+        return $result;
+    }
     
+
     function insert_item($data){
         $data['ta_created_at'] = date("Y-m-d H:i:s", time());      
         $result = $this->db->insert($this->table, $data);
@@ -60,6 +67,8 @@ class Nmpa_task_m extends CI_Model{
         $result = $this->db->query($sql)->row();
         return $result;
     }    
+
+
 }
 
 /* End of file Nmpa_task_m.php */

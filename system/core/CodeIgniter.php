@@ -379,6 +379,11 @@ if ( ! is_php('5.4'))
 		require_once APPPATH.'core/REST_Controller.php';
 	}
 
+	if (file_exists(APPPATH.'core/MS_Controller.php'))
+	{
+		require_once APPPATH.'core/MS_Controller.php';
+	}
+
 	// Set a mark point for benchmarking
 	$BM->mark('loading_time:_base_classes_end');
 

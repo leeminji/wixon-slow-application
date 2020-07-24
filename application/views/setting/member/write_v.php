@@ -145,10 +145,6 @@
 			$("#btnDeleteMember").on("click", function(e){
 				e.preventDefault();
 				that.delete();
-				if( confirm("해당 회원을 영구삭제하시겠습니까?") ){
-					$("#frm").attr("action", "/setting/member/delete");
-					$("#frm").submit();
-				}
 			});
 			$("#btnState").on("click", function(e){
 				e.preventDefault();
@@ -201,7 +197,7 @@
 		},
 		delete : function(){
 			if( confirm("해당 회원을 영구삭제하시겠습니까?") ){
-				$("#frm").attr("action", "/setting/member/delete");
+				$("#frm").attr("action", '<?php echo $this->delete_href?>');
 				$("#frm").submit();
 			}	
 		},
